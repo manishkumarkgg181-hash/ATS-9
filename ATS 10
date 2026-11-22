@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#003399">
+    <link rel="manifest" href="manifest.json">
+    <title>Apna Technical Services (ATS) - Complete App</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #eef2f6; padding-bottom: 88px; color: #0f172a; }
+
+        /* Header */
+        .header { background: #003399; color: #FFD700; padding: 14px; text-align: center; border-bottom: 4px solid #FFD700; }
+        .header h1 { font-size: 20px; font-weight: 800; }
+        .header p { color: #ffffff; font-size: 12px; margin-top: 3px; }
+        .sync-pill { display: inline-block; margin-top: 6px; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; background: #002266; color: #FFD700; border: 1px solid #FFD700; }
+
+        /* Navigation Tabs */
+        .nav-tabs { display: flex; background: #002266; border-bottom: 2px solid #FFD700; position: sticky; top: 0; z-index: 10; }
+        .nav-btn { flex: 1; padding: 11px 4px; background: none; border: none; color: #ddd; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .nav-btn.active { background: #FFD700; color: #002266; }
+
+        /* Container */
+        .container { padding: 14px; max-width: 600px; margin: auto; }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .section-title { color: #003399; font-size: 16px; font-weight: bold; margin: 14px 0 8px; border-left: 4px solid #FFD700; padding-left: 8px; }
+
+        /* Clickable Poster Banner */
+        .poster-box { position: relative; border-radius: 10px; overflow: hidden; border: 2px solid #003399; margin-bottom: 14px; cursor: pointer; background: #003399; }
+        .poster-box img { width: 100%; display: block; max-height: 240px; object-fit: cover; }
+        .poster-overlay { background: rgba(0, 34, 102, 0.92); color: #FFD700; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
+        .poster-overlay span { font-size: 13px; font-weight: bold; }
+        .poster-badge { background: #25D366; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+
+        /* All Services Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+        .card { background: #003399; color: white; padding: 10px 6px; border-radius: 8px; text-align: center; border: 2px solid #FFD700; cursor: pointer; transition: 0.15s; }
+        .card:active { transform: scale(0.96); }
+        .card span { font-size: 20px; display: block; margin-bottom: 4px; }
+        .card h3 { font-size: 11.5px; color: #FFD700; line-height: 1.25; }
+
+        /* Boxes & Forms */
+        .box { background: white; padding: 14px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 14px; }
+        label { display: block; font-size: 12px; font-weight: 600; color: #333; margin: 10px 0 4px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+
+        .row-flex { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .btn { width: 100%; padding: 12px; font-size: 14px; font-weight: bold; border: none; border-radius: 6px; margin-top: 10px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }
+        .btn-loc { background: #0284c7; color: #fff; padding: 9px 10px; font-size: 12px; margin-top: 0; width: auto; white-space: nowrap; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-pay { background: #f59e0b; color: #002266; }
+        .btn-primary { background: #003399; color: #FFD700; }
+        .btn-done { background: #16a34a; color: white; padding: 9px; font-size: 13px; margin-top: 8px; }
+        .btn-secondary { background: #e2e8f0; color: #0f172a; }
+        .btn-sm { width: auto; padding: 7px 11px; font-size: 12px; margin-top: 0; }
+
+        .loc-status { font-size: 12px; color: #0f172a; background: #f1f5f9; padding: 8px; border-radius: 6px; margin-top: 6px; word-break: break-all; }
+
+        /* Summary Strip */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .stat-box { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; text-align: center; }
+        .stat-box strong { display: block; font-size: 16px; color: #003399; }
+        .stat-box span { font-size: 11px; color: #475569; }
+
+        /* Cards & Lists */
+        .order-card { background: #f8fafc; border: 1px solid #cbd5e1; border-left: 5px solid #003399; padding: 12px; border-radius: 8px; margin-bottom: 10px; }
+        .order-card h4 { color: #003399; font-size: 14px; margin-bottom: 4px; }
+        .order-card p { font-size: 12.5px; color: #334155; margin: 3px 0; }
+        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-top: 5px; margin-right: 4px; }
+        .pending { background: #fef08a; color: #854d0e; }
+        .ontheway { background: #e0f2fe; color: #0369a1; }
+        .completed { background: #dcfce7; color: #166534; }
+        .paid-badge { background: #dbeafe; color: #1e40af; }
+        .unpaid-badge { background: #fee2e2; color: #991b1b; }
+
+        .fb-item { border-bottom: 1px solid #e2e8f0; padding: 8px 0; font-size: 13px; }
+        .fb-item:last-child { border-bottom: none; }
+
+        .bill-box { background: #fffbeb; border: 1px dashed #d97706; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 12.5px; }
+
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+        .photo-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px; text-align: center; }
+        .photo-card img { width: 100%; height: 95px; object-fit: cover; border-radius: 6px; background: #f1f5f9; }
+        .photo-card span { display: block; font-size: 10.5px; font-weight: 600; color: #334155; margin-top: 4px; }
+
+        /* Bottom Call Bar */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #002266; display: flex; justify-content: space-around; padding: 10px; border-top: 2px solid #FFD700; z-index: 10; }
+        .call-btn { background: #FFD700; color: #002266; text-decoration: none; padding: 7px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🛠️ Apna Technical Services (ATS)</h1>
+        <p>Khagaria • Beldour • Alamnagar Khuran • Maheskut</p>
+        <div id="syncStatus" class="sync-pill">Mode: Local + Cloud Ready</div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="switchTab('customer', this)">🏠 Book</button>
+        <button class="nav-btn" onclick="switchTab('payment', this)">💳 Pay</button>
+        <button class="nav-btn" onclick="switchTab('feedback', this)">⭐ Feedback</button>
+        <button class="nav-btn" onclick="switchTab('tech', this)">🔧 Tech</button>
+        <button class="nav-btn" onclick="switchTab('owner', this)">👑 Owner</button>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. CUSTOMER SECTION -->
+        <div id="customer" class="section active">
+
+            <!-- Clickable Photo / Poster Booking -->
+            <div class="poster-box" onclick="quickPosterBook()">
+                <img src="poster.jpg" alt="ATS LED TV Repair Poster" onerror="this.style.display='none'">
+                <div class="poster-overlay">
+                    <span>📸 Poster Par Click Karein — Instant TV Repair Order</span>
+                    <div class="poster-badge">Order Now</div>
+                </div>
+            </div>
+
+            <div class="section-title">All Services (Ek Click Mein Chunein)</div>
+            <div class="grid">
+                <div class="card" onclick="selectService('Display Problem')"><span>📺</span><h3>Display Problem</h3></div>
+                <div class="card" onclick="selectService('Sound Problem')"><span>🔊</span><h3>Sound Problem</h3></div>
+                <div class="card" onclick="selectService('Panel Repair')"><span>🔌</span><h3>Panel Repair</h3></div>
+                <div class="card" onclick="selectService('Smart TV Setup & Software')"><span>📡</span><h3>Smart TV Setup</h3></div>
+                <div class="card" onclick="selectService('Backlight & Motherboard')"><span>💡</span><h3>Backlight / Board</h3></div>
+                <div class="card" onclick="selectService('AC / Fridge / Fan Repair')"><span>❄️</span><h3>AC / Fridge / Fan</h3></div>
+                <div class="card" onclick="selectService('Washing Machine & Mixer')"><span>🧺</span><h3>Appliance Repair</h3></div>
+                <div class="card" onclick="selectService('Printer & Inverter Service')"><span>🖨️</span><h3>Printer & Inverter</h3></div>
+                <div class="card" onclick="selectService('Other Home Service')"><span>🛠️</span><h3>Other Service</h3></div>
+            </div>
+
+            <div class="box" id="bookingFormBox">
+                <div class="section-title" style="margin-top:0;">Service Booking Form</div>
+
+                <label>Aapka Naam</label>
+                <input type="text" id="custName" placeholder="Apna naam likhein">
+
+                <label>Mobile Number</label>
+                <input type="tel" id="custPhone" placeholder="10 digit mobile number" maxlength="15">
+
+                <label>Nazdeeki Branch</label>
+                <select id="branch">
+                    <option value="Khagaria">Khagaria (Main Branch)</option>
+                    <option value="Beldour">Beldour</option>
+                    <option value="Alamnagar Khuran">Alamnagar Khuran</option>
+                    <option value="Maheskut">Maheskut</option>
+                </select>
+
+                <label>Service / Problem Chunein</label>
+                <select id="problem">
+                    <option value="Display Problem">Display Problem</option>
+                    <option value="Sound Problem">Sound Problem</option>
+                    <option value="Panel Repair">Panel Repair</option>
+                    <option value="Smart TV Setup & Software">Smart TV Setup & Software</option>
+                    <option value="Backlight & Motherboard">Backlight & Motherboard</option>
+                    <option value="AC / Fridge / Fan Repair">AC / Fridge / Fan Repair</option>
+                    <option value="Washing Machine & Mixer">Washing Machine & Mixer</option>
+                    <option value="Printer & Inverter Service">Printer & Inverter Service</option>
+                    <option value="Other Home Service">Other Home Service</option>
+                </select>
+
+                <label>Live Location</label>
+                <div class="row-flex">
+                    <button type="button" class="btn btn-loc" onclick="getLiveLocation()">📍 Live Location Le</button>
+                    <span id="locBadge" style="font-size:12px; color:#0284c7; font-weight:600;">Location pending</span>
+                </div>
+                <div id="locDetails" class="loc-status">Abhi live location add nahi hui hai.</div>
+                <input type="hidden" id="liveLocLink" value="">
+
+                <label>Pura Address (Gaon / Mohalla / Landmark)</label>
+                <textarea id="address" rows="2" placeholder="Apna pura pata likhein..."></textarea>
+
+                <button type="button" class="btn btn-whatsapp" onclick="bookService()">📲 Book Order & Send WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- 2. ONLINE PAYMENT SECTION -->
+        <div id="payment" class="section">
+            <div class="box">
+                <div class="section-title" style="margin-top:0;">Online UPI Payment & Order Link</div>
+                <p style="font-size:13px; color:#475569; margin-bottom:10px;">
+                    UPI se payment karein aur order ke saath payment record link karein.
+                </p>
+
+                <label>Booking Order Chunein (Optional)</label>
+                <select id="payOrderSelect">
+                    <option value="">-- General Payment (Order ID Nahi) --</option>
+                </select>
+
+                <label>Aapka Naam</label>
+                <input type="text" id="payName" placeholder="Customer ka naam">
+
+                <label>Amount (₹ INR)</label>
+                <input type="number" id="payAmount" placeholder="Jaise: 199 ya 500" min="1">
+
+                <label>UPI ID</label>
+                <div class="row-flex">
+                    <input type="text" id="upiId" value="manishkumarkgg181@ybl" placeholder="manishkumarkgg181@ybl" style="flex:1;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="copyUpiId()">📋 Copy</button>
+                </div>
+
+                <button type="button" class="btn btn-pay" onclick="openUpiPay()">💳 UPI App Se Pay Karein</button>
+
+                <label>Payment UTR / Transaction Note</label>
+                <input type="text" id="payRef" placeholder="UTR number ya Paid via UPI likhein">
+                <button type="button" class="btn btn-primary" onclick="recordPayment()">✅ Payment Save & Link Karein</button>
+                <div id="payHistory" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- 3. FEEDBACK SECTION -->
+        <div id="feedback" class="section">
+            <div class="box">
+                <div class="section-title" style="margin-top:0;">Customer Feedback & Rating</div>
+
+                <label>Aapka Naam</label>
+                <input type="text" id="fbName" placeholder="Apna naam likhein">
+
+                <label>Rating Chunein</label>
+                <select id="fbRating">
+                    <option value="⭐⭐⭐⭐⭐ (5/5 - Bahut Accha)">⭐⭐⭐⭐⭐ (5/5 - Bahut Accha)</option>
+                    <option value="⭐⭐⭐⭐ (4/5 - Accha)">⭐⭐⭐⭐ (4/5 - Accha)</option>
+                    <option value="⭐⭐⭐ (3/5 - Theek Hai)">⭐⭐⭐ (3/5 - Theek Hai)</option>
+                    <option value="⭐⭐ (2/5 - Sudhar Ki Zaroorat)">⭐⭐ (2/5 - Sudhar Ki Zaroorat)</option>
+                    <option value="⭐ (1/5 - Kharab)">⭐ (1/5 - Kharab)</option>
+                </select>
+
+                <label>Aapka Anubhav / Sujhav</label>
+                <textarea id="fbMessage" rows="3" placeholder="Hamari service ke baare mein likhein..."></textarea>
+
+                <button type="button" class="btn btn-primary" onclick="submitFeedback()">⭐ Feedback Submit Karein</button>
+            </div>
+
+            <div class="box">
+                <div class="section-title" style="margin-top:0;">Recent Feedbacks</div>
+                <div id="feedbackList"></div>
+            </div>
+        </div>
+
+        <!-- 4. TECHNICIAN SECTION -->
+        <div id="tech" class="section">
+            <div id="techLoginBox" class="box">
+                <div class="section-title" style="margin-top:0;">Technician Login</div>
+                <label>Technician PIN Daalein</label>
+                <input type="password" id="techPin" placeholder="Technician PIN">
+                <button type="button" class="btn btn-primary" onclick="loginTech()">Login Karein</button>
+            </div>
+            <div id="techDashboard" style="display:none;">
+                <div class="section-title">Assigned Kaam, Photos & Bill</div>
+                <div class="box" style="padding:10px;">
+                    <div class="row-flex">
+                        <input type="text" id="techSearch" placeholder="Order ID, Naam ya Branch search..." oninput="renderTechOrders()" style="flex:1; padding:8px; font-size:13px;">
+                        <select id="techFilter" onchange="renderTechOrders()" style="width:auto; padding:8px; font-size:13px;">
+                            <option value="ALL">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="On The Way">On The Way</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="techOrdersList"></div>
+            </div>
+        </div>
+
+        <!-- 5. OWNER SECTION -->
+        <div id="owner" class="section">
+            <div id="ownerLoginBox" class="box">
+                <div class="section-title" style="margin-top:0;">Owner Admin Login</div>
+                <label>Owner PIN Daalein</label>
+                <input type="password" id="ownerPin" placeholder="Owner PIN">
+                <button type="button" class="btn btn-primary" onclick="loginOwner()">Admin Dashboard Kholein</button>
+            </div>
+            <div id="ownerDashboard" style="display:none;">
+                <div class="section-title">Sabhi Bookings, Bill Photos & Locations</div>
+                <div id="ownerStats" class="stats-grid"></div>
+                <div class="box" style="padding:10px;">
+                    <div class="row-flex">
+                        <input type="text" id="ownerSearch" placeholder="Order ID, Naam, Phone ya Branch search..." oninput="renderOwnerOrders()" style="flex:1; padding:8px; font-size:13px;">
+                        <select id="ownerFilter" onchange="renderOwnerOrders()" style="width:auto; padding:8px; font-size:13px;">
+                            <option value="ALL">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="On The Way">On The Way</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="ownerOrdersList"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-bar">
+        <a href="tel:7488778228" class="call-btn">📞 7488778228</a>
+        <a href="tel:9693654168" class="call-btn">📞 9693654168</a>
+    </div>
+
+    <!-- Optional Firebase SDK (Compat) for Live Multi-Device Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+    <script>
+        const OWNER_PIN = 'ATS@3344';
+        const TECH_PIN = 'ATS@7788';
+        const DEFAULT_UPI_ID = 'manishkumarkgg181@ybl';
+        const WHATSAPP_NUMBER = '917488778228';
+
+        // Apne Firebase Console ki keys yahan bharein (agar khali chhodenge toh Local Storage use hoga)
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "",
+            databaseURL: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: ""
+        };
+
+        let db = null;
+        let cloudEnabled = false;
+        const tempPhotos = {}; // { [orderId]: { repaired: dataUrl, part: dataUrl, bill: dataUrl } }
+
+        function safeLocalSet(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (err) {
+                alert('Browser storage full ho gaya hai! Nayi photos save karne ke liye purane orders/photos clear karein ya Firebase configure karein.');
+                return false;
+            }
+        }
+
+        function statusClass(status) {
+            if (status === 'Completed') return 'completed';
+            if (status === 'On The Way') return 'ontheway';
+            return 'pending';
+        }
+
+        function initCloudSync() {
+            try {
+                if (firebaseConfig.apiKey && firebaseConfig.databaseURL && window.firebase) {
+                    if (!firebase.apps.length) {
+                        firebase.initializeApp(firebaseConfig);
+                    }
+                    db = firebase.database();
+                    cloudEnabled = true;
+                    document.getElementById('syncStatus').textContent = 'Mode: Live Firebase Cloud Sync';
+
+                    db.ref('ats/orders').on('value', (snap) => {
+                        const data = snap.val();
+                        if (data) {
+                            const arr = Object.values(data).sort((a, b) => b.id - a.id);
+                            safeLocalSet('ats_orders_v5', arr);
+                            refreshAllViews();
+                        }
+                    });
+
+                    db.ref('ats/payments').on('value', (snap) => {
+                        const data = snap.val();
+                        if (data) {
+                            const arr = Object.values(data).sort((a, b) => b.id - a.id);
+                            safeLocalSet('ats_payments_v5', arr);
+                            renderPayments();
+                        }
+                    });
+
+                    db.ref('ats/feedbacks').on('value', (snap) => {
+                        const data = snap.val();
+                        if (data) {
+                            const arr = Object.values(data).sort((a, b) => b.id - a.id);
+                            safeLocalSet('ats_feedback_v5', arr);
+                            renderFeedbacks();
+                        }
+                    });
+                }
+            } catch (e) {
+                cloudEnabled = false;
+            }
+        }
+
+        function getOrders() {
+            return JSON.parse(localStorage.getItem('ats_orders_v5') || '[]');
+        }
+
+        function saveOrders(orders) {
+            if (!safeLocalSet('ats_orders_v5', orders)) return false;
+            if (cloudEnabled && db) {
+                const mapObj = {};
+                orders.forEach(o => { mapObj[o.id] = o; });
+                db.ref('ats/orders').set(mapObj);
+            }
+            refreshAllViews();
+            return true;
+        }
+
+        function getPayments() {
+            return JSON.parse(localStorage.getItem('ats_payments_v5') || '[]');
+        }
+
+        function savePayments(pays) {
+            if (!safeLocalSet('ats_payments_v5', pays)) return false;
+            if (cloudEnabled && db) {
+                const mapObj = {};
+                pays.forEach(p => { mapObj[p.id] = p; });
+                db.ref('ats/payments').set(mapObj);
+            }
+            renderPayments();
+            return true;
+        }
+
+        function getFeedbacks() {
+            return JSON.parse(localStorage.getItem('ats_feedback_v5') || '[]');
+        }
+
+        function saveFeedbacks(fbs) {
+            if (!safeLocalSet('ats_feedback_v5', fbs)) return false;
+            if (cloudEnabled && db) {
+                const mapObj = {};
+                fbs.forEach(f => { mapObj[f.id] = f; });
+                db.ref('ats/feedbacks').set(mapObj);
+            }
+            renderFeedbacks();
+            return true;
+        }
+
+        function refreshAllViews() {
+            populateOrderSelect();
+            if (document.getElementById('ownerDashboard').style.display === 'block') renderOwnerOrders();
+            if (document.getElementById('techDashboard').style.display === 'block') renderTechOrders();
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabId === 'payment') { populateOrderSelect(); renderPayments(); }
+            if (tabId === 'feedback') renderFeedbacks();
+            if (tabId === 'owner' && document.getElementById('ownerDashboard').style.display === 'block') renderOwnerOrders();
+            if (tabId === 'tech'
