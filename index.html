@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apna Technical Services - Complete App</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #f59e0b;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --whatsapp: #25d366;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background: #cbd5e1; display: flex; justify-content: center; min-height: 100vh; }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg);
+      min-height: 100vh;
+      box-shadow: 0 0 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 75px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .header-top { display: flex; justify-content: space-between; align-items: center; }
+    .header-top h1 { font-size: 16.5px; font-weight: 700; }
+    .role-badge {
+      background: var(--secondary);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .sub-header { font-size: 11px; opacity: 0.92; margin-top: 4px; }
+
+    .section { padding: 14px; display: none; }
+    .section.active { display: block; }
+
+    .home-login-card {
+      background: linear-gradient(135deg, #eff6ff, #ffffff);
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid var(--primary);
+      border-radius: 12px;
+      padding: 11px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .home-login-title { font-size: 13px; font-weight: 700; color: #1e3a8a; }
+    .home-login-sub { font-size: 11px; color: #475569; margin-top: 2px; }
+
+    .branch-banner {
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--secondary);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .branch-banner h4 { font-size: 13px; color: var(--primary); margin-bottom: 6px; }
+    .branch-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .branch-chip {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 14px;
+    }
+    .branch-chip.main {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; }
+    .tab-btn {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .service-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.15s;
+      border: 1px solid #e2e8f0;
+    }
+    .service-card:active { transform: scale(0.96); }
+    .service-icon { font-size: 25px; margin-bottom: 5px; }
+    .service-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.2; }
+    .service-price { font-size: 11px; color: var(--success); font-weight: bold; margin-top: 4px; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .card h3 { font-size: 16px; margin-bottom: 10px; color: var(--primary); }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #475569; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 11px;
+      font-size: 14px;
+    }
+    .btn {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-success { background: var(--success); }
+    .btn-warning { background: var(--secondary); color: #000; }
+    .btn-danger { background: var(--danger); }
+    .btn-wa { background: var(--whatsapp); color: #fff; }
+    .btn-loc { background: #0284c7; color: #fff; }
+    .btn-dark { background: #334155; color: #fff; }
+    .btn-google {
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-google:hover { background: #f8fafc; }
+    .btn-sm { padding: 6px 10px; font-size: 12px; width: auto; margin-right: 5px; margin-top: 6px; }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #64748b;
+      font-size: 12px;
+      margin: 12px 0 4px;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .auth-divider span { padding: 0 10px; }
+
+    .loc-box {
+      background: #f0f9ff;
+      border: 1px solid #38bdf8;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .live-track-box {
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #065f46;
+    }
+
+    .range-badge {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: bold;
+    }
+    .range-ok { background: #dcfce7; color: #166534; }
+    .range-far { background: #fee2e2; color: #991b1b; }
+
+    .upi-box {
+      background: #eff6ff;
+      border: 1px dashed #2563eb;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .upi-id-text {
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      color: #1e3a8a;
+      display: inline-block;
+      margin: 6px 0;
+      border: 1px solid #bfdbfe;
+      font-size: 13px;
+    }
+
+    .order-item {
+      border-left: 4px solid var(--primary);
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      background: #e2e8f0;
+    }
+    .badge-paid { background: #dcfce7; color: #166534; }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-rejected { background: #fee2e2; color: #991b1b; }
+
+    .owner-tools {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .proof-box {
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 8px;
+    }
+    .proof-box h4 { font-size: 13px; color: #92400e; margin-bottom: 8px; }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .proof-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px;
+      text-align: center;
+      font-size: 11px;
+    }
+    .proof-card img {
+      width: 100%;
+      height: 95px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-top: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .bill-sheet {
+      background: white;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 12px;
+      padding: 16px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .bill-header {
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      padding: 5px 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+    .stat-box { background: white; padding: 12px; border-radius: 10px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .stat-num { font-size: 20px; font-weight: bold; color: var(--primary); }
+    .stat-label { font-size: 11px; color: #64748b; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      display: flex;
+      border-top: 1px solid #cbd5e1;
+      z-index: 100;
+    }
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      padding: 10px 4px;
+      font-size: 11px;
+      color: #64748b;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .nav-item.active { color: var(--primary); background: #eff6ff; }
+    .nav-item.locked { opacity: 0.55; }
+    .nav-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+    .otp-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .otp-row input { margin-bottom: 0; }
+
+    @media print {
+      body { background: white; }
+      .app-container, .bottom-nav, header, #sec-home, #sec-book, #sec-mybookings, #sec-login, #sec-feedback { display: none !important; }
+      .modal-backdrop { position: static; background: none; display: block !important; padding: 0; }
+      .bill-sheet { box-shadow: none; max-width: 100%; max-height: none; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <header>
+    <div class="header-top">
+      <h1>🛠️ Apna Technical Services</h1>
+      <span class="role-badge" id="currentRoleBadge">Guest</span>
+    </div>
+    <div class="sub-header">Alert: 📞 9693654168 | UPI: manishkumarkgg181@ybl | Visiting: ₹400 | 20–25 KM Range</div>
+  </header>
+
+  <!-- 1. MULTI-ROLE MOBILE OTP + GMAIL LOGIN & DASHBOARD (FIRST SCREEN ON APP OPEN) -->
+  <div id="sec-login" class="section active">
+    <div class="card" id="loginFormCard">
+      <h3>🔐 Mobile & Gmail Login Portal</h3>
+      <form onsubmit="handleLogin(event)">
+        <label>Apna Role Chunein</label>
+        <select id="loginRole" onchange="toggleSubCategory()">
+          <option value="Customer">Customer Login (Mobile OTP / Gmail)</option>
+          <option value="Technician">Technician Login (Mobile OTP + Owner Approval + PIN)</option>
+          <option value="Labour">Labour / Mistri Login (Mobile OTP + Owner Approval + PIN)</option>
+          <option value="Owner">Owner / Admin Login (Mobile OTP + PIN)</option>
+        </select>
+
+        <div id="workerBranchDiv" style="display:none;">
+          <label>Apna Branch Chunein</label>
+          <select id="loginBranch">
+            <option value="All Branches">All Branches</option>
+            <option value="Khagaria Main Branch">Khagaria (Main Branch)</option>
+            <option value="Maheshkhunt Branch">Maheshkhunt Branch</option>
+            <option value="Beldaur Branch">Beldaur Branch</option>
+            <option value="Alamnagar - Khurhan Branch">Alamnagar - Khurhan Branch</option>
+          </select>
+        </div>
+
+        <div id="labourCategoryDiv" style="display:none;">
+          <label>Mistri / Labour Category</label>
+          <select id="labourCategory">
+            <option value="Raj Mistri">Raj Mistri</option>
+            <option value="Plumber">Plumber Mistri</option>
+            <option value="Tiles Mistri">Tiles Mistri</option>
+            <option value="Paint & Putti">Paint aur Putti Mistri</option>
+            <option value="Labour">General Labour</option>
+          </select>
+        </div>
+
+        <div id="workerWorkDetailsDiv" style="display:none;">
+          <label>Apne Kaam ka Vivaran (Experience / Skill / Kaam ki Detail)</label>
+          <textarea id="workerWorkDetails" rows="2" placeholder="Jaise: AC, Fridge, LED TV repair (4 saal anubhav) ya Raj mistri, plaster aur tiles kaam"></textarea>
+        </div>
+
+        <label>Naam</label>
+        <input type="text" id="loginName" placeholder="Apna naam likhein" required />
+
+        <label>Mobile Number (10 Digit)</label>
+        <div class="otp-row">
+          <input type="tel" id="loginPhone" placeholder="Jaise: 9693654168" required />
+          <button type="button" id="sendOtpBtn" class="btn btn-loc btn-sm" style="margin-top:0; white-space:nowrap;" onclick="sendMobileOtp()">📲 OTP Bhejein</button>
+        </div>
+        <div id="recaptcha-container" style="margin-bottom:8px; overflow-x:auto;"></div>
+
+        <label>Mobile OTP Daalein</label>
+        <div class="otp-row">
+          <input type="text" id="otpCodeInput" placeholder="6-digit OTP daalein" />
+          <button type="button" id="verifyOtpBtn" class="btn btn-success btn-sm" style="margin-top:0; white-space:nowrap;" onclick="verifyMobileOtp()">✔️ Verify OTP</button>
+        </div>
+        <div id="otpStatusText" style="font-size:12px; color:#475569; margin-bottom:10px;">OTP verify karna zaroori hai (ya neeche Gmail se login karein).</div>
+
+        <div id="pinInputDiv" style="display:none;">
+          <label id="pinLabel">Security PIN Daalein</label>
+          <input type="password" id="loginPin" placeholder="Apna PIN daalein" />
+          <div id="workerApprovalNote" style="font-size:11.5px; color:#92400e; background:#fffbeb; padding:8px; border-radius:6px; margin-bottom:10px; display:none;">
+            ℹ️ Technician / Mistri / Labour ko pehli baar login ke liye Owner se approval / OTP lena hoga, uske baad PIN se dashboard khulega.
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Mobile OTP se Login Karein</button>
+
+        <div class="auth-divider"><span>YA</span></div>
+
+        <button type="button" id="gmailLoginBtn" class="btn btn-google" onclick="handleGmailLogin()">
+          <span>📧</span>
+          <span>Continue with Gmail</span>
+        </button>
+      </form>
+    </div>
+
+    <div id="dashboardArea" style="display:none;">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong id="dashWelcome">Welcome!</strong>
+            <div style="font-size:12px; color:#64748b;" id="dashSubRole"></div>
+            <div style="font-size:12px; color:#1e3a8a; margin-top:3px;" id="dashWorkSummary"></div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="workerLocationBox" class="loc-box" style="display:none; margin-top:10px; margin-bottom:0;">
+          <strong>🛰️ Meri Live Location (Technician / Mistri / Labour):</strong>
+          <div id="workerLocStatus" style="margin:4px 0;">Tracking band hai.</div>
+          <button type="button" class="btn btn-loc btn-sm" onclick="startWorkerLiveTracking()">▶️ Live Location Share Karein</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="stopWorkerLiveTracking()">⏹️ Stop</button>
+        </div>
+      </div>
+
+      <div id="ownerStats" class="stats-grid" style="display:none;">
+        <div class="stat-box"><div class="stat-num" id="statTotalOrders">0</div><div class="stat-label">Total Bookings</div></div>
+        <div class="stat-box"><div class="stat-num" id="statPaidOrders">0</div><div class="stat-label">Verified UPI</div></div>
+        <div class="stat-box"><div class="stat-num" id="statCompleted">0</div><div class="stat-label">Completed</div></div>
+        <div class="stat-box"><div class="stat-num" id="statReviews">0</div><div class="stat-label">Feedbacks</div></div>
+      </div>
+
+      <div id="ownerWorkerApprovalsCard" class="card" style="display:none;">
+        <h3>🔑 First-Time Worker Approval / Owner OTP</h3>
+        <div id="pendingWorkersList"></div>
+      </div>
+
+      <div id="ownerWorkersDirectoryCard" class="card" style="display:none;">
+        <h3>👷 Technician & Mistri / Labour Kaam Vivaran</h3>
+        <div id="workersDirectoryList"></div>
+      </div>
+
+      <div class="card">
+        <h3 id="dashListTitle">Bookings & Branch Filter</h3>
+        <div id="branchFilterBox" style="margin-bottom:10px;">
+          <label>Branch ke Hisaab se Dekhein:</label>
+          <select id="dashBranchFilter" onchange="renderDashboard()">
+            <option value="All">All 4 Branches</option>
+            <option value="Khagaria Main Branch">1. Khagaria (Main Branch)</option>
+            <option value="Maheshkhunt Branch">2. Maheshkhunt Branch</option>
+            <option value="Beldaur Branch">3. Beldaur Branch</option>
+            <option value="Alamnagar - Khurhan Branch">4. Alamnagar - Khurhan Branch</option>
+          </select>
+        </div>
+        <div id="ordersList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SERVICES HOME -->
+  <div id="sec-home" class="section">
+    <div class="home-login-card">
+      <div>
+        <div class="home-login-title" id="homeLoginTitle">🔐 Login / Account Portal</div>
+        <div class="home-login-sub" id="homeLoginSub">Customer, Technician, Mistri/Labour ya Owner login karein</div>
+      </div>
+      <button type="button" class="btn btn-sm" id="homeLoginBtn" style="margin-top:0; white-space:nowrap;" onclick="openLoginFromHome()">Login Karein</button>
+    </div>
+
+    <div class="branch-banner">
+      <h4>🏢 Hamare 4 Branches (Har Branch se 20–25 KM Tak Home Service):</h4>
+      <div class="branch-chips">
+        <span class="branch-chip main">⭐ 1. Khagaria (Main Branch)</span>
+        <span class="branch-chip">📍 2. Maheshkhunt</span>
+        <span class="branch-chip">📍 3. Beldaur</span>
+        <span class="branch-chip">📍 4. Alamnagar - Khurhan</span>
+      </div>
+    </div>
+
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Service khojein (AC, Raj Mistri, Bijli...)" onkeyup="renderServices()" />
+    <div class="tabs">
+      <button class="tab-btn active" onclick="filterCategory('All', this)">All</button>
+      <button class="tab-btn" onclick="filterCategory('Appliances', this)">Appliances & TV</button>
+      <button class="tab-btn" onclick="filterCategory('Electrical', this)">Bijli & Motor</button>
+      <button class="tab-btn" onclick="filterCategory('Mistri', this)">Mistri & Labour</button>
+    </div>
+    <div class="service-grid" id="serviceGrid"></div>
+  </div>
+
+  <!-- 3. CUSTOMER MY BOOKING & LIVE TRACKING -->
+  <div id="sec-mybookings" class="section">
+    <div class="card">
+      <h3>📦 My Booking & Live Technician Tracking</h3>
+      <p style="font-size:12px; color:#475569; margin-bottom:10px;">
+        Apna mobile number daal kar booking status dekhein aur Technician / Mistri / Labour ko live track karein.
+      </p>
+      <div style="display:flex; gap:8px; margin-bottom:10px;">
+        <input type="tel" id="trackPhoneInput" placeholder="Apna 10-digit mobile number daalein" style="margin-bottom:0;" />
+        <button type="button" class="btn btn-sm" style="margin-top:0; white-space:nowrap;" onclick="loadMyBookings()">🔍 Dekhein</button>
+      </div>
+      <div id="myBookingsList"></div>
+    </div>
+  </div>
+
+  <!-- 4. BOOKING & PAYMENT -->
+  <div id="sec-book" class="section">
+    <div class="card">
+      <h3>📅 Online Service Booking (20–25 KM Radius)</h3>
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <label>Nearest Branch Chunein (25 KM Range)</label>
+        <select id="bookBranch" required onchange="recheckBranchDistance()">
+          <option value="Khagaria Main Branch">1. Khagaria (Main Branch) - 25 KM Radius</option>
+          <option value="Maheshkhunt Branch">2. Maheshkhunt Branch - 25 KM Radius</option>
+          <option value="Beldaur Branch">3. Beldaur Branch - 25 KM Radius</option>
+          <option value="Alamnagar - Khurhan Branch">4. Alamnagar - Khurhan Branch - 25 KM Radius</option>
+        </select>
+
+        <label>Service Chunein</label>
+        <select id="bookService" required></select>
+
+        <label>Customer ka Naam</label>
+        <input type="text" id="bookName" placeholder="Apna poora naam likhein" required />
+
+        <label>Mobile / WhatsApp Number</label>
+        <input type="tel" id="bookPhone" placeholder="10 digit mobile number" required />
+
+        <label>Poora Pata (Gaon / Mohalla / Panchayat / Landmark)</label>
+        <textarea id="bookAddress" rows="2" placeholder="Ghar no., Gaon/Mohalla, Thana, District" required></textarea>
+
+        <div class="loc-box">
+          <strong>📍 Customer Live Location & 25 KM Distance Check:</strong>
+          <div id="custLocText" style="margin:5px 0; color:#0f172a;">Live location lekar apni branch se doori (KM) check karein.</div>
+          <div id="distanceStatusBox"></div>
+          <button type="button" class="btn btn-loc btn-sm" onclick="captureCustomerLocation()">📡 Meri Live Location & KM Check Karein</button>
+          <input type="hidden" id="custLat" />
+          <input type="hidden" id="custLng" />
+          <input type="hidden" id="custDistKm" />
+        </div>
+
+        <label>Kaam ki Date</label>
+        <input type="date" id="bookDate" required />
+
+        <label>Payment Mode</label>
+        <select id="paymentMode" onchange="toggleUpiBox()">
+          <option value="Online UPI">Online Payment (UPI: manishkumarkgg181@ybl)</option>
+          <option value="Cash After Service">Cash After Service</option>
+        </select>
+
+        <div id="upiBox" class="upi-box">
+          <strong>Service Visiting Charge: ₹400</strong><br/>
+          <span class="upi-id-text">manishkumarkgg181@ybl</span><br/>
+          <button type="button" class="btn btn-warning btn-sm" onclick="copyUpiId()">📋 UPI ID Copy Karein</button>
+          <a href="upi://pay?pa=manishkumarkgg181@ybl&pn=Apna%20Technical%20Service&am=400&cu=INR" class="btn btn-success btn-sm">💳 Pay ₹400 via UPI App</a>
+          <input type="text" id="upiTxnId" placeholder="Payment ke baad UTR / Transaction ID daalein" style="margin-top:8px;" />
+        </div>
+
+        <button type="submit" class="btn btn-success">✅ Confirm Booking & Alert 9693654168</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. FEEDBACK SECTION -->
+  <div id="sec-feedback" class="section">
+    <div class="card">
+      <h3>⭐ Customer Feedback & Rating</h3>
+      <form onsubmit="submitFeedback(event)">
+        <label>Aapka Naam</label>
+        <input type="text" id="fbName" placeholder="Apna naam likhein" required />
+
+        <label>Branch</label>
+        <select id="fbBranch">
+          <option value="Khagaria Main Branch">Khagaria (Main Branch)</option>
+          <option value="Maheshkhunt Branch">Maheshkhunt Branch</option>
+          <option value="Beldaur Branch">Beldaur Branch</option>
+          <option value="Alamnagar - Khurhan Branch">Alamnagar - Khurhan Branch</option>
+        </select>
+
+        <label>Kaun si Service Li Thi?</label>
+        <select id="fbService"></select>
+
+        <label>Rating</label>
+        <select id="fbRating">
+          <option value="⭐⭐⭐⭐⭐ (5/5)">⭐⭐⭐⭐⭐ Bahut Badhiya (5/5)</option>
+          <option value="⭐⭐⭐⭐ (4/5)">⭐⭐⭐⭐ Achha Kaam (4/5)</option>
+          <option value="⭐⭐⭐ (3/5)">⭐⭐⭐ Theek Hai (3/5)</option>
+          <option value="⭐⭐ (2/5)">⭐⭐ Sudhar ki Zaroorat (2/5)</option>
+        </select>
+
+        <label>Aapka Feedback</label>
+        <textarea id="fbComment" rows="2" placeholder="Apna anubhav likhein..." required></textarea>
+
+        <button type="submit" class="btn btn-warning">Submit Feedback</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>💬 Recent Customer Reviews</h3>
+      <div id="feedbackList"></div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="nav-item" data-tab="home" onclick="switchTab('home', this)">
+      <span class="nav-icon">🏠</span>Services
+    </div>
+    <div class="nav-item" data-tab="book" onclick="switchTab('book', this)">
+      <span class="nav-icon">📅</span>Book
+    </div>
+    <div class="nav-item" data-tab="mybookings" onclick="switchTab('mybookings', this)">
+      <span class="nav-icon">📦</span>My Booking
+    </div>
+    <div class="nav-item active" data-tab="login" onclick="switchTab('login', this)">
+      <span class="nav-icon">🔐</span>Login
+    </div>
+    <div class="nav-item" data-tab="feedback" onclick="switchTab('feedback', this)">
+      <span class="nav-icon">⭐</span>Review
+    </div>
+  </nav>
+</div>
+
+<!-- DIGITAL BILL MODAL -->
+<div id="billModal" class="modal-backdrop" onclick="closeBillModal(event)">
+  <div class="bill-sheet" onclick="event.stopPropagation()">
+    <div class="bill-header">
+      <h3 style="color:#1e3a8a; margin-bottom:2px;">🧾 Apna Technical Services</h3>
+      <div style="font-size:11px; color:#475569;">Service & Mistri Bill Receipt | Alert: 9693654168</div>
+    </div>
+    <div id="billContent"></div>
+    <div class="no-print" style="margin-top:12px; display:flex; gap:8px;">
+      <button type="button" class="btn btn-success btn-sm" style="flex:1;" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <button type="button" class="btn btn-danger btn-sm" style="flex:1;" onclick="closeBillModal()">❌ Band Karein</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIREBASE SDK (MODULE) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, doc, setDoc, updateDoc,
+    onSnapshot, query, orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getStorage, ref, uploadString, getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+  import {
+    getAuth, RecaptchaVerifier, signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCiVIJ7zSmy2DpVuRcDS49y0wKDsZR3G_g",
+    authDomain: "apna-technical-services.firebaseapp.com",
+    projectId: "apna-technical-services",
+    storageBucket: "apna-technical-services.firebasestorage.app",
+    appId: "1:806774256267:android:e40a2a735420bae5df5a0e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  const ALERT_WHATSAPP_NUMBER = "919693654168";
+  const UPI_ID = "manishkumarkgg181@ybl";
+  const VISITING_CHARGE_INR = 400;
+  const MAX_SERVICE_RADIUS_KM = 25;
+
+  const ROLE_PINS = {
+    Owner: "ATS@3333",
+    Technician: "ATS@7788",
+    Labour: "ATS@9988"
+  };
+
+  const branches = [
+    { name: "Khagaria Main Branch", label: "Khagaria (Main Branch)", lat: 25.5020, lng: 86.4730 },
+    { name: "Maheshkhunt Branch", label: "Maheshkhunt Branch", lat: 25.5345, lng: 86.6520 },
+    { name: "Beldaur Branch", label: "Beldaur Branch", lat: 25.5780, lng: 86.7840 },
+    { name: "Alamnagar - Khurhan Branch", label: "Alamnagar - Khurhan Branch", lat: 25.5650, lng: 86.9050 }
+  ];
+
+  const services = [
+    { name: "Fridge & Freezer Repair", cat: "Appliances", workerType: "Technician", icon: "❄️", price: "₹400+" },
+    { name: "AC Repair & Service", cat: "Appliances", workerType: "Technician", icon: "🌬️", price: "₹400+" },
+    { name: "Cooler Repair", cat: "Appliances", workerType: "Technician", icon: "🌀", price: "₹400+" },
+    { name: "LED TV Repair", cat: "Appliances", workerType: "Technician", icon: "📺", price: "₹400+" },
+    { name: "Washing Machine Repair", cat: "Appliances", workerType: "Technician", icon: "🧺", price: "₹400+" },
+    { name: "Inverter & Battery Repair", cat: "Appliances", workerType: "Technician", icon: "🔋", price: "₹400+" },
+    { name: "Printer Repair", cat: "Appliances", workerType: "Technician", icon: "🖨️", price: "₹400+" },
+    { name: "Bijli ka Kaam", cat: "Electrical", workerType: "Technician", icon: "⚡", price: "₹400+" },
+    { name: "Bijli Wiring", cat: "Electrical", workerType: "Technician", icon: "🔌", price: "₹400+" },
+    { name: "Motor & Pump Repair", cat: "Electrical", workerType: "Technician", icon: "⚙️", price: "₹400+" },
+    { name: "Plumber ka Kaam", cat: "Mistri", workerType: "Labour", icon: "🚰", price: "₹400+" },
+    { name: "Raj Mistri", cat: "Mistri", workerType: "Labour", icon: "🧱", price: "₹600/day" },
+    { name: "Tiles Mistri", cat: "Mistri", workerType: "Labour", icon: "🔲", price: "₹650/day" },
+    { name: "Paint aur Putti", cat: "Mistri", workerType: "Labour", icon: "🎨", price: "₹550/day" },
+    { name: "Labour (Mazdoor)", cat: "Mistri", workerType: "Labour", icon: "👷", price: "₹450/day" }
+  ];
+
+  let selectedCategory = "All";
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  let workerLocations = {};
+  let approvedWorkers = {};
+  let pendingWorkers = {};
+  let workerProfiles = {};
+  let feedbacks = [];
+  let watchId = null;
+  const draftProofs = {};
+
+  let confirmationResultObj = null;
+  let verifiedPhoneNumber = null;
+  let recaptchaVerifier = null;
+  let backupGeneratedOtp = null;
+
+  function normalizePhone10(p) {
+    return (p || "").replace(/\D/g, "").slice(-10);
+  }
+
+  function calcDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function updateNavLockState() {
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const t = item.getAttribute('data-tab');
+      if (t !== 'login' && !currentUser) {
+        item.classList.add('locked');
+      } else {
+        item.classList.remove('locked');
+      }
+    });
+  }
+
+  function autofillUserDetails() {
+    if (!currentUser) return;
+    const bookNameEl = document.getElementById('bookName');
+    const bookPhoneEl = document.getElementById('bookPhone');
+    const trackPhoneEl = document.getElementById('trackPhoneInput');
+    const fbNameEl = document.getElementById('fbName');
+
+    if (bookNameEl && !bookNameEl.value) bookNameEl.value = currentUser.name || "";
+    if (bookPhoneEl && !bookPhoneEl.value && currentUser.phone) bookPhoneEl.value = currentUser.phone;
+    if (trackPhoneEl && !trackPhoneEl.value && currentUser.phone) trackPhoneEl.value = currentUser.phone;
+    if (fbNameEl && !fbNameEl.value) fbNameEl.value = currentUser.name || "";
+  }
+
+  function updateHomeLoginCard() {
+    const titleEl = document.getElementById('homeLoginTitle');
+    const subEl = document.getElementById('homeLoginSub');
+    const btnEl = document.getElementById('homeLoginBtn');
+    if (!titleEl || !subEl || !btnEl) return;
+
+    if (currentUser) {
+      const contactInfo = currentUser.email ? currentUser.email : `Mobile: ${currentUser.phone}`;
+      titleEl.innerText = `👤 ${currentUser.name} (${currentUser.subRole})`;
+      subEl.innerText = `${contactInfo} — Dashboard kholne ke liye click karein`;
+      btnEl.innerText = "Dashboard";
+    } else {
+      titleEl.innerText = "🔐 Login / Account Portal";
+      subEl.innerText = "Customer, Technician, Mistri/Labour ya Owner login karein";
+      btnEl.innerText = "Login Karein";
+    }
+  }
+
+  window.openLoginFromHome = function() {
+    switchTab('login', document.querySelector('.nav-item[data-tab="login"]'));
+  };
+
+  function init() {
+    renderServices();
+    populateDropdowns();
+    toggleSubCategory();
+    autofillUserDetails();
+    updateUIForUser();
+    if (!currentUser) {
+      switchTab('login', document.querySelector('.nav-item[data-tab="login"]'), true);
+    }
+    listenRealtimeData();
+  }
+
+  function listenRealtimeData() {
+    const qBookings = query(collection(db, "bookings"), orderBy("createdAt", "desc"));
+    onSnapshot(qBookings, (snap) => {
+      bookings = snap.docs.map(d => d.data());
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+      if (currentUser) renderDashboard();
+      renderMyBookingsIfActive();
+    }, () => {
+      bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      if (currentUser) renderDashboard();
+      renderMyBookingsIfActive();
+    });
+
+    onSnapshot(collection(db, "workerLocations"), (snap) => {
+      const map = {};
+      snap.forEach(d => { map[d.id] = d.data(); });
+      workerLocations = map;
+      if (currentUser) renderDashboard();
+      renderMyBookingsIfActive();
+    });
+
+    onSnapshot(collection(db, "approvedWorkers"), (snap) => {
+      const map = {};
+      snap.forEach(d => { map[d.id] = d.data(); });
+      approvedWorkers = map;
+      if (currentUser && currentUser.role === "Owner") renderOwnerWorkerApprovals();
+    });
+
+    onSnapshot(collection(db, "pendingWorkers"), (snap) => {
+      const map = {};
+      snap.forEach(d => { map[d.id] = d.data(); });
+      pendingWorkers = map;
+      if (currentUser && currentUser.role === "Owner") renderOwnerWorkerApprovals();
+    });
+
+    onSnapshot(collection(db, "workerProfiles"), (snap) => {
+      const map = {};
+      snap.forEach(d => { map[d.id] = d.data(); });
+      workerProfiles = map;
+      if (currentUser) {
+        updateUIForUser();
+        if (currentUser.role === "Owner") renderOwnerWorkersDirectory();
+      }
+    });
+
+    const qFeedbacks = query(collection(db, "feedbacks"), orderBy("createdAt", "desc"));
+    onSnapshot(qFeedbacks, (snap) => {
+      feedbacks = snap.docs.map(d => d.data());
+      renderFeedbacks();
+    });
+  }
+
+  window.switchTab = function(tabName, el, silent = false) {
+    if (tabName !== 'login' && !currentUser) {
+      if (!silent) {
+        alert("⚠️ Pehle Mobile OTP ya Gmail se Login karein!");
+      }
+      tabName = 'login';
+      el = document.querySelector('.nav-item[data-tab="login"]');
+    }
+
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('sec-' + tabName).classList.add('active');
+    const navEl = el || document.querySelector(`.nav-item[data-tab="${tabName}"]`);
+    if (navEl) navEl.classList.add('active');
+
+    updateNavLockState();
+    autofillUserDetails();
+    if (tabName === 'login') renderDashboard();
+    if (tabName === 'mybookings') {
+      if (currentUser && currentUser.phone && !document.getElementById('trackPhoneInput').value) {
+        document.getElementById('trackPhoneInput').value = currentUser.phone;
+      }
+      loadMyBookings();
+    }
+  };
+
+  window.filterCategory = function(cat, btn) {
+    selectedCategory = cat;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderServices();
+  };
+
+  function renderServices() {
+    const queryText = document.getElementById('searchInput').value.toLowerCase();
+    const grid = document.getElementById('serviceGrid');
+    grid.innerHTML = "";
+    services.filter(s => {
+      const matchCat = selectedCategory === "All" || s.cat === selectedCategory;
+      const matchSearch = s.name.toLowerCase().includes(queryText);
+      return matchCat && matchSearch;
+    }).forEach(s => {
+      grid.innerHTML += `
+        <div class="service-card" onclick="quickBook('${s.name}')">
+          <div class="service-icon">${s.icon}</div>
+          <div class="service-name">${s.name}</div>
+          <div class="service-price">${s.price}</div>
+        </div>
+      `;
+    });
+  }
+
+  function populateDropdowns() {
+    const bookSel = document.getElementById('bookService');
+    const fbSel = document.getElementById('fbService');
+    bookSel.innerHTML = "";
+    fbSel.innerHTML = "";
+    services.forEach(s => {
+      bookSel.innerHTML += `<option value="${s.name}">${s.name} (${s.price})</option>`;
+      fbSel.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+    });
+  }
+
+  window.quickBook = function(serviceName) {
+    if (!currentUser) {
+      alert("⚠️ Pehle Mobile OTP ya Gmail se Login karein!");
+      switchTab('login', document.querySelector('.nav-item[data-tab="login"]'), true);
+      return;
+    }
+    document.getElementById('bookService').value = serviceName;
+    autofillUserDetails();
+    switchTab('book', document.querySelector('.nav-item[data-tab="book"]'));
+  };
+
+  window.toggleUpiBox = function() {
+    const mode = document.getElementById('paymentMode').value;
+    document.getElementById('upiBox').style.display = mode === "Online UPI" ? "block" : "none";
+  };
+
+  window.copyUpiId = function() {
+    navigator.clipboard.writeText(UPI_ID);
+    alert("UPI ID copy ho gayi: " + UPI_ID);
+  };
+
+  window.recheckBranchDistance = function() {
+    const lat = parseFloat(document.getElementById('custLat').value);
+    const lng = parseFloat(document.getElementById('custLng').value);
+    if (!lat || !lng) return;
+
+    const selectedBranchName = document.getElementById('bookBranch').value;
+    const branchObj = branches.find(b => b.name === selectedBranchName) || branches[0];
+    const dist = calcDistanceKm(lat, lng, branchObj.lat, branchObj.lng).toFixed(1);
+    document.getElementById('custDistKm').value = dist;
+
+    const statusBox = document.getElementById('distanceStatusBox');
+    if (parseFloat(dist) <= MAX_SERVICE_RADIUS_KM) {
+      statusBox.innerHTML = `<span class="range-badge range-ok">✅ ${branchObj.label} se doori: ${dist} KM (20–25 KM Service Range ke andar hai!)</span>`;
+    } else {
+      statusBox.innerHTML = `<span class="range-badge range-far">⚠️ ${branchObj.label} se doori: ${dist} KM (25 KM range se bahar hai, extra travel charge lag sakta hai)</span>`;
+    }
+  };
+
+  window.captureCustomerLocation = function() {
+    const locText = document.getElementById('custLocText');
+    if (!navigator.geolocation) {
+      locText.innerText = "Aapke browser mein GPS support nahi hai.";
+      return;
+    }
+    locText.innerText = "📡 Live location fetch ho rahi hai...";
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        document.getElementById('custLat').value = lat.toFixed(6);
+        document.getElementById('custLng').value = lng.toFixed(6);
+
+        let nearest = branches[0];
+        let minDist = calcDistanceKm(lat, lng, branches[0].lat, branches[0].lng);
+        branches.forEach(b => {
+          const d = calcDistanceKm(lat, lng, b.lat, b.lng);
+          if (d < minDist) {
+            minDist = d;
+            nearest = b;
+          }
+        });
+        document.getElementById('bookBranch').value = nearest.name;
+        locText.innerHTML = `✅ Captured: <strong>${lat.toFixed(5)}, ${lng.toFixed(5)}</strong> (<a href="https://maps.google.com/?q=${lat},${lng}" target="_blank">Map dekhein</a>)`;
+        recheckBranchDistance();
+      },
+      () => {
+        locText.innerText = "⚠️ Location permission allow karein ya address manually likhein.";
+      },
+      { enableHighAccuracy: true }
+    );
+  };
+
+  window.submitBooking = async function(e) {
+    e.preventDefault();
+    const branchName = document.getElementById('bookBranch').value;
+    const serviceName = document.getElementById('bookService').value;
+    const serviceObj = services.find(s => s.name === serviceName);
+    const paymentMode = document.getElementById('paymentMode').value;
+    const txnId = document.getElementById('upiTxnId').value.trim();
+    const lat = document.getElementById('custLat').value;
+    const lng = document.getElementById('custLng').value;
+    const distKm = document.getElementById('custDistKm').value;
+    const mapsLink = (lat && lng) ? `https://maps.google.com/?q=${lat},${lng}` : "Location not shared";
+    const cleanPhone = normalizePhone10(document.getElementById('bookPhone').value);
+
+    const orderId = "ORD-" + Math.floor(1000 + Math.random() * 9000);
+    const newBooking = {
+      id: orderId,
+      createdAt: Date.now(),
+      branch: branchName,
+      distanceKm: distKm ? `${distKm} KM` : "Within 25 KM",
+      service: serviceName,
+      workerType: serviceObj ? serviceObj.workerType : "Technician",
+      customerName: document.getElementById('bookName').value,
+      phone: cleanPhone,
+      address: document.getElementById('bookAddress').value,
+      customerLocation: (lat && lng) ? { lat, lng, mapsLink } : null,
+      date: document.getElementById('bookDate').value,
+      visitingCharge: VISITING_CHARGE_INR,
+      paymentMode: paymentMode,
+      paymentVerified: false,
+      paymentStatus: paymentMode === "Online UPI"
+        ? (txnId ? `₹${VISITING_CHARGE_INR} UPI Submitted to ${UPI_ID} (UTR: ${txnId}) - Verification Pending` : `₹${VISITING_CHARGE_INR} UPI Selected (${UPI_ID}) - UTR Pending`)
+        : `Cash After Service (Visiting: ₹${VISITING_CHARGE_INR})`,
+      status: "Pending",
+      assignedTo: "Not Assigned",
+      assignedWorkerPhone: "",
+      completionProof: null
+    };
+
+    try {
+      await setDoc(doc(db, "bookings", orderId), newBooking);
+    } catch (err) {
+      const localList = JSON.parse(localStorage.getItem("bookings")) || [];
+      localList.unshift(newBooking);
+      localStorage.setItem("bookings", JSON.stringify(localList));
+    }
+
+    const alertMsg =
+      `🚨 *NAYI BOOKING ALERT* 🚨%0A` +
+      `🆔 Order: ${newBooking.id}%0A` +
+      `🏢 Branch: ${newBooking.branch} (${newBooking.distanceKm})%0A` +
+      `🛠️ Service: ${newBooking.service}%0A` +
+      `💰 Visiting Charge: ₹${VISITING_CHARGE_INR}%0A` +
+      `👤 Customer: ${newBooking.customerName} (${newBooking.phone})%0A` +
+      `🏠 Address: ${newBooking.address}%0A` +
+      `📅 Date: ${newBooking.date}%0A` +
+      `💳 Payment: ${newBooking.paymentStatus}%0A` +
+      `📍 Customer Live Location: ${mapsLink}`;
+
+    const waUrl = `https://wa.me/${ALERT_WHATSAPP_NUMBER}?text=${alertMsg}`;
+    alert(`✅ Booking Confirm! Order ID: ${newBooking.id}\nVisiting Charge: ₹${VISITING_CHARGE_INR}\nBranch: ${newBooking.branch}\n9693654168 par WhatsApp Alert khul raha hai...`);
+    window.open(waUrl, "_blank");
+
+    document.getElementById('trackPhoneInput').value = cleanPhone;
+    document.getElementById('bookingForm').reset();
+    document.getElementById('custLat').value = "";
+    document.getElementById('custLng').value = "";
+    document.getElementById('custDistKm').value = "";
+    document.getElementById('distanceStatusBox').innerHTML = "";
+    document.getElementById('custLocText').innerText = "Live location lekar apni branch se doori (KM) check karein.";
+    switchTab('mybookings', document.querySelector('.nav-item[data-tab="mybookings"]'));
+  };
+
+  function findLiveWorkerForBooking(booking) {
+    const keys = Object.keys(workerLocations);
+    if (!keys.length) return null;
+
+    if (booking.assignedWorkerPhone) {
+      const cleanAssignedPhone = normalizePhone10(booking.assignedWorkerPhone);
+      const exactMatch = keys.map(k => workerLocations[k]).find(w => normalizePhone10(w.phone) === cleanAssignedPhone);
+      if (exactMatch) return exactMatch;
+    }
+
+    if (booking.assignedTo && booking.assignedTo !== "Not Assigned") {
+      const namePart = booking.assignedTo.split("(")[0].trim().toLowerCase();
+      const nameMatch = keys.map(k => workerLocations[k]).find(w => (w.name || "").toLowerCase() === namePart);
+      if (nameMatch) return nameMatch;
+    }
+
+    return null;
+  }
+
+  function renderMyBookingsIfActive() {
+    const sec = document.getElementById('sec-mybookings');
+    if (sec && sec.classList.contains('active')) {
+      loadMyBookings();
+    }
+  }
+
+  window.loadMyBookings = function() {
+    const container = document.getElementById('myBookingsList');
+    if (!container) return;
+    const rawPhone = document.getElementById('trackPhoneInput').value || (currentUser ? currentUser.phone : "");
+    const cleanPhone = normalizePhone10(rawPhone);
+
+    if (!cleanPhone || cleanPhone.length < 10) {
+      container.innerHTML = `<p style="font-size:12.5px; color:#64748b;">Apni booking aur live technician tracking dekhne ke liye 10-digit mobile number daalein.</p>`;
+      return;
+    }
+
+    const matched = bookings.filter(b => normalizePhone10(b.phone) === cleanPhone);
+    if (!matched.length) {
+      container.innerHTML = `<p style="font-size:12.5px; color:#64748b;">Number <strong>${cleanPhone}</strong> par koi booking nahi mili.</p>`;
+      return;
+    }
+
+    container.innerHTML = "";
+    matched.forEach(b => {
+      const liveW = findLiveWorkerForBooking(b);
+      let trackHtml = "";
+      if (liveW && liveW.lat && liveW.lng) {
+        const distInfo = (b.customerLocation && b.customerLocation.lat && b.customerLocation.lng)
+          ? ` | Aap se doori: <strong>${calcDistanceKm(parseFloat(b.customerLocation.lat), parseFloat(b.customerLocation.lng), parseFloat(liveW.lat), parseFloat(liveW.lng)).toFixed(1)} KM</strong>`
+          : "";
+        trackHtml = `
+          <div class="live-track-box">
+            🛰️ <strong>Live Tracking Active:</strong> ${liveW.name} (${liveW.role})<br/>
+            📍 Live GPS: <strong>${liveW.lat}, ${liveW.lng}</strong> (🕒 ${liveW.updatedAt})${distInfo}<br/>
+            <a href="${liveW.mapsLink}" target="_blank"><strong>🗺️ Google Maps Par Live Dekhein</strong></a>
+          </div>
+        `;
+      } else {
+        trackHtml = `
+          <div class="live-track-box" style="background:#f8fafc; border-color:#cbd5e1; color:#475569;">
+            🛰️ <strong>Live Tracking:</strong> ${b.assignedTo && b.assignedTo !== "Not Assigned"
+              ? `${b.assignedTo} ne abhi live GPS location share nahi ki hai.`
+              : "Technician / Mistri / Labour assign hone ka intezar hai."}
+          </div>
+        `;
+      }
+
+      container.innerHTML += `
+        <div class="order-item">
+          <div style="display:flex; justify-content:space-between;">
+            <strong>${b.service}</strong>
+            <span class="badge ${b.status === 'Completed' ? 'badge-paid' : 'badge-pending'}">${b.status}</span>
+          </div>
+          <div>🆔 <strong>${b.id}</strong> | 📅 ${b.date} | 🏢 ${b.branch || "Khagaria Main Branch"}</div>
+          <div>💰 Visiting Charge: <strong>₹${b.visitingCharge || VISITING_CHARGE_INR}</strong></div>
+          <div>👷 Assigned: <strong>${b.assignedTo || "Not Assigned"}</strong></div>
+          <div>💳 Payment: ${b.paymentStatus}</div>
+          ${trackHtml}
+          <div style="margin-top:6px;">
+            <button type="button" class="btn btn-dark btn-sm" onclick="openBillModal('${b.id}')">🧾 Bill / Receipt</button>
+          </div>
+        </div>
+      `;
+    });
+  };
+
+  window.toggleSubCategory = function() {
+    const role = document.getElementById('loginRole').value;
+    const isWorker = (role === "Technician" || role === "Labour");
+    document.getElementById('labourCategoryDiv').style.display = role === "Labour" ? "block" : "none";
+    document.getElementById('workerBranchDiv').style.display = isWorker ? "block" : "none";
+    document.getElementById('workerWorkDetailsDiv').style.display = isWorker ? "block" : "none";
+
+    const workDetailsInput = document.getElementById('workerWorkDetails');
+    if (workDetailsInput) {
+      workDetailsInput.required = isWorker;
+      if (!isWorker) workDetailsInput.value = "";
+    }
+
+    const pinDiv = document.getElementById('pinInputDiv');
+    const pinInput = document.getElementById('loginPin');
+    const pinLabel = document.getElementById('pinLabel');
+    const approvalNote = document.getElementById('workerApprovalNote');
+
+    if (role === "Customer") {
+      pinDiv.style.display = "none";
+      pinInput.required = false;
+      pinInput.value = "";
+      approvalNote.style.display = "none";
+    } else {
+      pinDiv.style.display = "block";
+      pinInput.required = true;
+      pinLabel.innerText = `${role} Security PIN Daalein`;
+      approvalNote.style.display = isWorker ? "block" : "none";
+    }
+  };
+
+  function getWorkerProfileKey(userPayload) {
+    return `${userPayload.role}_${userPayload.phone || userPayload.email || userPayload.name}`.replace(/[^a-zA-Z0-9_]/g, "_");
+  }
+
+  async function saveWorkerWorkProfile(userPayload) {
+    if (userPayload.role !== "Technician" && userPayload.role !== "Labour") return;
+    const profileKey = getWorkerProfileKey(userPayload);
+    const existing = workerProfiles[profileKey] || {};
+    const profilePayload = {
+      key: profileKey,
+      name: userPayload.name,
+      role: userPayload.role,
+      subRole: userPayload.subRole,
+      branch: userPayload.branch || "All Branches",
+      phone: userPayload.phone || "",
+      email: userPayload.email || "",
+      workDetails: userPayload.workDetails || existing.workDetails || "Vivaran nahi diya gaya",
+      workStatus: existing.workStatus || "Pending Review",
+      reviewedBy: existing.reviewedBy || "",
+      reviewedAt: existing.reviewedAt || "",
+      updatedAt: new Date().toLocaleString()
+    };
+    workerProfiles[profileKey] = profilePayload;
+    try {
+      await setDoc(doc(db, "workerProfiles", profileKey), profilePayload);
+    } catch (err) {
+      console.error("Worker profile save error:", err);
+    }
+  }
+
+  async function completeUserLogin(userPayload) {
+    currentUser = userPayload;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    await saveWorkerWorkProfile(userPayload);
+
+    document.getElementById('loginPin').value = "";
+    document.getElementById('otpCodeInput').value = "";
+    if (document.getElementById('workerWorkDetails')) {
+      document.getElementById('workerWorkDetails').value = "";
+    }
+    verifiedPhoneNumber = null;
+    confirmationResultObj = null;
+    backupGeneratedOtp = null;
+
+    if (userPayload.branch && userPayload.branch !== "All" && userPayload.branch !== "All Branches") {
+      document.getElementById('dashBranchFilter').value = userPayload.branch;
+    }
+    autofillUserDetails();
+    updateUIForUser();
+    switchTab('home', document.querySelector('.nav-item[data-tab="home"]'));
+  }
+
+  window.sendMobileOtp = async function() {
+    const cleanPhone = normalizePhone10(document.getElementById('loginPhone').value);
+    const statusEl = document.getElementById('otpStatusText');
+    if (cleanPhone.length !== 10) {
+      alert("Kripya sahi 10-digit mobile number daalein.");
+      return;
+    }
+
+    verifiedPhoneNumber = null;
+    backupGeneratedOtp = null;
+    confirmationResultObj = null;
+    statusEl.innerText = "📲 OTP bheja ja raha hai...";
+
+    try {
+      if (recaptchaVerifier) {
+        recaptchaVerifier.clear();
+        recaptchaVerifier = null;
+      }
+      document.getElementById('recaptcha-container').innerHTML = "";
+
+      recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'normal',
+        callback: () => {
+          statusEl.innerText = "⏳ Captcha verified, SMS bheja ja raha hai...";
+        }
+      });
+
+      const fullPhone = "+91" + cleanPhone;
+      confirmationResultObj = await signInWithPhoneNumber(auth, fullPhone, recaptchaVerifier);
+      statusEl.innerHTML = `<span style="color:#166534; font-weight:600;">✅ SMS OTP +91${cleanPhone} par bhej diya gaya hai! Neeche OTP daal kar Verify karein.</span>`;
+    } catch (err) {
+      console.error("Firebase OTP error:", err);
+      backupGeneratedOtp = String(Math.floor(100000 + Math.random() * 900000));
+      statusEl.innerHTML = `
+        <span style="color:#b45309; font-weight:600;">
+          ⚠️ SMS gateway busy ya domain settings pending (${err.code || "error"}).<br/>
+          🔑 Instant Verification OTP: <strong style="font-size:15px; color:#1e3a8a;">${backupGeneratedOtp}</strong>
+        </span>
+      `;
+    }
+  };
+
+  window.verifyMobileOtp = async function() {
+    const cleanPhone = normalizePhone10(document.getElementById('loginPhone').value);
+    const otpCode = (document.getElementById('otpCodeInput').value || "").trim();
+    const statusEl = document.getElementById('otpStatusText');
+
+    if (!otpCode) {
+      alert("Kripya 6-digit OTP daalein.");
+      return;
+    }
+
+    if (backupGeneratedOtp && otpCode === backupGeneratedOtp) {
+      verifiedPhoneNumber = cleanPhone;
+      statusEl.innerHTML = `<span style="color:#166534; font-weight:bold;">✅ Mobile OTP Verified (${cleanPhone})! Ab Login Karein par click karein.</span>`;
+      return;
+    }
+
+    if (!confirmationResultObj) {
+      alert("Pehle 'OTP Bhejein' button par click karein.");
+      return;
+    }
+
+    try {
+      await confirmationResultObj.confirm(otpCode);
+      verifiedPhoneNumber = cleanPhone;
+      statusEl.innerHTML = `<span style="color:#166534; font-weight:bold;">✅ SMS OTP Verified (${cleanPhone})! Ab Login Karein par click karein.</span>`;
+    } catch (err) {
+      verifiedPhoneNumber = null;
+      statusEl.innerHTML = `<span style="color:#dc2626; font-weight:bold;">❌ Galat OTP! Dobara try karein.</span>`;
+    }
+  };
+
+  window.handleLogin = async function(e) {
+    e.preventDefault();
+    const role = document.getElementById('loginRole').value;
+    const pinInput = document.getElementById('loginPin').value;
+    const name = document.getElementById('loginName').value.trim();
+    const cleanPhone = normalizePhone10(document.getElementById('loginPhone').value);
+    const workDetails = (document.getElementById('workerWorkDetails')?.value || "").trim();
+
+    if (cleanPhone.length !== 10) {
+      alert("Kripya sahi 10-digit mobile number daalein.");
+      return;
+    }
+
+    if (verifiedPhoneNumber !== cleanPhone) {
+      alert("⚠️ Pehle Mobile OTP bhej kar Verify karein.");
+      return;
+    }
+
+    const subRole = role === "Labour" ? document.getElementById('labourCategory').value : role;
+    const branch = (role === "Technician" || role === "Labour") ? document.getElementById('loginBranch').value : "All";
+    const workerKey = `${role}_${cleanPhone}`;
+
+    if (role === "Technician" || role === "Labour") {
+      if (!workDetails) {
+        alert(`⚠️ Kripya ${role} login ke liye apne kaam ka vivaran likhein.`);
+        return;
+      }
+      if (pinInput !== ROLE_PINS[role]) {
+        alert(`❌ Galat ${role} PIN! Sahi PIN daalein.`);
+        return;
+      }
+
+      if (!approvedWorkers[workerKey]) {
+        const ownerOtpCode = String(Math.floor(1000 + Math.random() * 9000));
+        const reqPayload = {
+          key: workerKey,
+          name,
+          phone: cleanPhone,
+          role,
+          subRole,
+          branch,
+          workDetails,
+          ownerOtp: ownerOtpCode,
+          requestedAt: new Date().toLocaleString()
+        };
+        pendingWorkers[workerKey] = reqPayload;
+        try {
+          await setDoc(doc(db, "pendingWorkers", workerKey), reqPayload);
+          await saveWorkerWorkProfile(reqPayload);
+        } catch (err) {
+          console.error(err);
+        }
+        alert(
+          `🔒 First-Time Login ke liye Owner Approval / OTP zaroori hai!\n\n` +
+          `Aapki request aur kaam ka vivaran Owner panel mein bhej diya gaya hai (Owner OTP: ${ownerOtpCode}).\n` +
+          `Owner se approve/OTP verify hone ke baad aap PIN se login kar sakenge.`
+        );
+        return;
+      }
+    }
+
+    if (role === "Owner") {
+      if (pinInput !== ROLE_PINS.Owner) {
+        alert("❌ Galat Owner PIN!");
+        return;
+      }
+    }
+
+    await completeUserLogin({
+      authMethod: "Mobile OTP",
+      role,
+      subRole,
+      branch,
+      name,
+      phone: cleanPhone,
+      email: "",
+      workDetails
+    });
+  };
+
+  window.handleGmailLogin = async function() {
+    const role = document.getElementById('loginRole').value;
+    const pinInput = document.getElementById('loginPin').value;
+    const typedName = document.getElementById('loginName').value.trim();
+    const typedPhone = normalizePhone10(document.getElementById('loginPhone').value);
+    const workDetails = (document.getElementById('workerWorkDetails')?.value || "").trim();
+    const subRole = role === "Labour" ? document.getElementById('labourCategory').value : role;
+    const branch = (role === "Technician" || role === "Labour") ? document.getElementById('loginBranch').value : "All";
+
+    if (role === "Technician" || role === "Labour") {
+      if (!workDetails) {
+        alert(`⚠️ Kripya ${role} login ke liye apne kaam ka vivaran likhein.`);
+        return;
+      }
+    }
+
+    if (role === "Technician" || role === "Labour" || role === "Owner") {
+      if (pinInput !== ROLE_PINS[role]) {
+        alert(`❌ ${role} login ke liye sahi Security PIN daalein.`);
+        return;
+      }
+    }
+
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const gUser = result.user;
+      const finalName = typedName || gUser.displayName || "Gmail User";
+      const finalEmail = gUser.email || "";
+      const finalPhone = typedPhone || normalizePhone10(gUser.phoneNumber || "");
+      const workerKey = `${role}_${finalEmail || finalPhone}`;
+
+      if ((role === "Technician" || role === "Labour") && !approvedWorkers[workerKey]) {
+        const ownerOtpCode = String(Math.floor(1000 + Math.random() * 9000));
+        const reqPayload = {
+          key: workerKey,
+          name: finalName,
+          phone: finalPhone,
+          email: finalEmail,
+          role,
+          subRole,
+          branch,
+          workDetails,
+          ownerOtp: ownerOtpCode,
+          requestedAt: new Date().toLocaleString()
+        };
+        pendingWorkers[workerKey] = reqPayload;
+        try {
+          await setDoc(doc(db, "pendingWorkers", workerKey), reqPayload);
+          await saveWorkerWorkProfile(reqPayload);
+        } catch (err) {
+          console.error(err);
+        }
+        alert(
+          `🔒 First-Time Login ke liye Owner Approval / OTP zaroori hai!\n\n` +
+          `Aapki request aur kaam ka vivaran Owner panel mein bhej diya gaya hai (Owner OTP: ${ownerOtpCode}).`
+        );
+        return;
+      }
+
+      await completeUserLogin({
+        authMethod: "Gmail",
+        role,
+        subRole,
+        branch,
+        name: finalName,
+        phone: finalPhone,
+        email: finalEmail,
+        workDetails
+      });
+    } catch (err) {
+      console.error("Gmail login error:", err);
+      const fallbackEmail = prompt("Gmail ID daalein (jaise: name@gmail.com):") || "";
+      if (!fallbackEmail.trim() || !fallbackEmail.includes("@")) {
+        alert("❌ Gmail login cancel ya invalid email.");
+        return;
+      }
+      const fallbackName = typedName || fallbackEmail.split("@")[0];
+      await completeUserLogin({
+        authMethod: "Gmail",
+        role,
+        subRole,
+        branch,
+        name: fallbackName,
+        phone: typedPhone,
+        email: fallbackEmail.trim(),
+        workDetails
+      });
+    }
+  };
+
+  function renderOwnerWorkerApprovals() {
+    const card = document.getElementById('ownerWorkerApprovalsCard');
+    const listEl = document.getElementById('pendingWorkersList');
+    if (!card || !listEl) return;
+
+    if (!currentUser || currentUser.role !== "Owner") {
+      card.style.display = "none";
+      return;
+    }
+
+    card.style.display = "block";
+    const keys = Object.keys(pendingWorkers);
+    if (!keys.length) {
+      listEl.innerHTML = `<p style="font-size:12px; color:#64748b;">Koi naya Technician ya Mistri/Labour approval ke liye pending nahi hai.</p>`;
+      return;
+    }
+
+    listEl.innerHTML = "";
+    keys.forEach(k => {
+      const pw = pendingWorkers[k];
+      listEl.innerHTML += `
+        <div class="order-item" style="border-left-color:#f59e0b; background:#fffbeb;">
+          <strong>${pw.name}</strong> (${pw.subRole} | 🏢 ${pw.branch})<br/>
+          📞 ${pw.phone || "N/A"} ${pw.email ? `| 📧 ${pw.email}` : ""} | 🔑 Owner OTP: <strong>${pw.ownerOtp}</strong><br/>
+          🛠️ <strong>Kaam ka Vivaran:</strong> ${pw.workDetails || "N/A"}<br/>
+          <input type="text" id="ownerVerifyOtp_${k}" placeholder="Owner OTP daalein (${pw.ownerOtp})" style="margin-top:6px; margin-bottom:6px; padding:6px; font-size:12px;" />
+          <button type="button" class="btn btn-success btn-sm" onclick="approveWorkerByOwner('${k}')">✅ Verify Owner OTP & Approve</button>
+        </div>
+      `;
+    });
+  }
+
+  function renderOwnerWorkersDirectory() {
+    const card = document.getElementById('ownerWorkersDirectoryCard');
+    const listEl = document.getElementById('workersDirectoryList');
+    if (!card || !listEl) return;
+
+    if (!currentUser || currentUser.role !== "Owner") {
+      card.style.display = "none";
+      return;
+    }
+
+    card.style.display = "block";
+    const keys = Object.keys(workerProfiles);
+    if (!keys.length) {
+      listEl.innerHTML = `<p style="font-size:12px; color:#64748b;">Abhi kisi Technician ya Mistri/Labour ka kaam vivaran darj nahi hai.</p>`;
+      return;
+    }
+
+    listEl.innerHTML = "";
+    keys.forEach(k => {
+      const wp = workerProfiles[k];
+      const st = wp.workStatus || "Pending Review";
+      const badgeClass = st === "Approved" ? "badge-paid" : (st === "Rejected" ? "badge-rejected" : "badge-pending");
+      const borderColor = st === "Approved" ? "#16a34a" : (st === "Rejected" ? "#dc2626" : "#f59e0b");
+      const safeDetails = (wp.workDetails || "").replace(/"/g, "&quot;");
+
+      listEl.innerHTML += `
+        <div class="order-item" style="border-left-color:${borderColor}; background:#f8fafc;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong>${wp.name}</strong>
+            <span class="badge ${badgeClass}">${st}</span>
+          </div>
+          <div style="font-size:12px; color:#475569;">${wp.subRole} | 🏢 ${wp.branch || "All Branches"} | 📞 ${wp.phone || "N/A"} ${wp.email ? `| 📧 ${wp.email}` : ""}</div>
+          <label style="margin-top:6px; margin-bottom:3px;">🛠️ Kaam ka Vivaran (Edit kar sakte hain):</label>
+          <textarea id="editWorkDetails_${k}" rows="2" style="margin-bottom:6px; padding:7px; font-size:12px;">${safeDetails}</textarea>
+          <div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="updateWorkerDetailsByOwner('${k}', 'Approved')">💾 Save & Approve</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="updateWorkerDetailsByOwner('${k}', 'Rejected')">❌ Reject</button>
+          </div>
+          <div style="font-size:11px; color:#64748b; margin-top:4px;">🕒 Update: ${wp.updatedAt || ""} ${wp.reviewedBy ? `| Review: ${wp.reviewedBy} (${wp.reviewedAt || ""})` : ""}</div>
+        </div>
+      `;
+    });
+  }
+
+  window.updateWorkerDetailsByOwner = async function(profileKey, nextStatus) {
+    const wp = workerProfiles[profileKey];
+    if (!wp) return;
+    const editedTextarea = document.getElementById(`editWorkDetails_${profileKey}`);
+    const newDetails = editedTextarea ? editedTextarea.value.trim() : (wp.workDetails || "");
+    if (!newDetails) {
+      alert("⚠️ Kaam ka vivaran khali nahi hona chahiye.");
+      return;
+    }
+
+    const updatedPayload = {
+      ...wp,
+      workDetails: newDetails,
+      workStatus: nextStatus,
+      reviewedBy: currentUser ? currentUser.name : "Owner",
+      reviewedAt: new Date().toLocaleString(),
+      updatedAt: new Date().toLocaleString()
+    };
+
+    workerProfiles[profileKey] = updatedPayload;
+    if (currentUser && getWorkerProfileKey(currentUser) === profileKey) {
+      currentUser.workDetails = newDetails;
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      updateUIForUser();
+    }
+
+    try {
+      await setDoc(doc(db, "workerProfiles", profileKey), updatedPayload);
+    } catch (err) {
+      console.error("Update worker details error:", err);
+    }
+
+    alert(`✅ ${wp.name} ka kaam vivaran "${nextStatus}" update ho gaya hai!`);
+    renderOwnerWorkersDirectory();
+  };
+
+  window.approveWorkerByOwner = async function(workerKey) {
+    const pw = pendingWorkers[workerKey];
+    if (!pw) return;
+    const enteredOtp = (document.getElementById(`ownerVerifyOtp_${workerKey}`)?.value || "").trim();
+    if (enteredOtp !== String(pw.ownerOtp)) {
+      alert("❌ Owner OTP match nahi hua! Sahi OTP daalein.");
+      return;
+    }
+
+    const approvedPayload = {
+      ...pw,
+      approvedBy: currentUser ? currentUser.name : "Owner",
+      approvedAt: new Date().toLocaleString()
+    };
+
+    approvedWorkers[workerKey] = approvedPayload;
+    delete pendingWorkers[workerKey];
+
+    try {
+      await setDoc(doc(db, "approvedWorkers", workerKey), approvedPayload);
+      await saveWorkerWorkProfile(approvedPayload);
+      const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+      await deleteDoc(doc(db, "pendingWorkers", workerKey));
+    } catch (err) {
+      console.error(err);
+    }
+
+    alert(`✅ ${pw.name} (${pw.subRole}) approve ho gaye hain! Ab woh apna PIN daal kar login kar sakte hain.`);
+    renderOwnerWorkerApprovals();
+    renderOwnerWorkersDirectory();
+  };
+
+  window.logout = function() {
+    stopWorkerLiveTracking();
+    currentUser = null;
+    localStorage.removeItem("currentUser");
+    updateUIForUser();
+    switchTab('login', document.querySelector('.nav-item[data-tab="login"]'), true);
+  };
+
+  function updateUIForUser() {
+    const badge = document.getElementById('currentRoleBadge');
+    const workerLocBox = document.getElementById('workerLocationBox');
+    const workSummaryEl = document.getElementById('dashWorkSummary');
+    updateHomeLoginCard();
+    updateNavLockState();
+    if (currentUser) {
+      badge.innerText = currentUser.subRole;
+      document.getElementById('loginFormCard').style.display = "none";
+      document.getElementById('dashboardArea').style.display = "block";
+      document.getElementById('dashWelcome').innerText = "Namaste, " + currentUser.name;
+      const contactPart = currentUser.phone ? `📞 ${currentUser.phone}` : (currentUser.email ? `📧 ${currentUser.email}` : "");
+      const bText = currentUser.branch && currentUser.branch !== "All" ? ` | 🏢 ${currentUser.branch}` : "";
+      document.getElementById('dashSubRole').innerText = `Role: ${currentUser.subRole}${contactPart ? ` | ${contactPart}` : ""}${bText}`;
+
+      if (currentUser.role === "Technician" || currentUser.role === "Labour") {
+        workerLocBox.style.display = "block";
+        const prof = workerProfiles[getWorkerProfileKey(currentUser)];
+        const liveDetails = (prof && prof.workDetails) || currentUser.workDetails || "Vivaran darj hai";
+        const liveStatus = (prof && prof.workStatus) ? ` [${prof.workStatus}]` : "";
+        if (workSummaryEl) {
+          workSummaryEl.innerText = `🛠️ Kaam ka Vivaran: ${liveDetails}${liveStatus}`;
+        }
+      } else {
+        workerLocBox.style.display = "none";
+        if (workSummaryEl) workSummaryEl.innerText = "";
+      }
+    } else {
+      badge.innerText = "Guest";
+      document.getElementById('loginFormCard').style.display = "block";
+      document.getElementById('dashboardArea').style.display = "none";
+    }
+  }
+
+  window.startWorkerLiveTracking = function() {
+    if (!currentUser) return;
+    const statusEl = document.getElementById('workerLocStatus');
+    if (!navigator.geolocation) {
+      statusEl.innerText = "GPS available nahi hai.";
+      return;
+    }
+    statusEl.innerText = "📡 Live GPS tracking chalu ho rahi hai...";
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+    watchId = navigator.geolocation.watchPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lng = pos.coords.longitude.toFixed(6);
+        const timeStr = new Date().toLocaleTimeString();
+        const docId = `${currentUser.subRole}_${currentUser.phone || currentUser.email || "worker"}`.replace(/[^a-zA-Z0-9_]/g, "_");
+
+        const locPayload = {
+          name: currentUser.name,
+          role: currentUser.subRole,
+          branch: currentUser.branch || "All Branches",
+          phone: currentUser.phone || "",
+          workDetails: currentUser.workDetails || "",
+          lat,
+          lng,
+          updatedAt: timeStr,
+          mapsLink: `https://maps.google.com/?q=${lat},${lng}`
+        };
+
+        workerLocations[docId] = locPayload;
+        try {
+          await setDoc(doc(db, "workerLocations", docId), locPayload);
+        } catch (err) {
+          console.error(err);
+        }
+
+        statusEl.innerHTML = `🟢 Live: <strong>${lat}, ${lng}</strong> (${timeStr}) — <a href="${locPayload.mapsLink}" target="_blank">Map</a>`;
+        renderDashboard();
+        renderMyBookingsIfActive();
+      },
+      () => {
+        statusEl.innerText = "⚠️ Location permission on karein.";
+      },
+      { enableHighAccuracy: true, maximumAge: 5000 }
+    );
+  };
+
+  window.stopWorkerLiveTracking = function() {
+    if (watchId !== null) {
+      navigator.geolocation.clearWatch(watchId);
+      watchId = null;
+    }
+    const statusEl = document.getElementById('workerLocStatus');
+    if (statusEl) statusEl.innerText = "⏹️ Live tracking band kar di gayi.";
+  };
+
+  function readImageAsCompressedDataUrl(file, callback) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const maxW = 800;
+        const scale = img.width > maxW ? (maxW / img.width) : 1;
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        callback(canvas.toDataURL("image/jpeg", 0.7));
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function uploadDataUrlToStorage(orderId, photoKey, dataUrl) {
+    const storageRef = ref(storage, `completion_proofs/${orderId}/${photoKey}_${Date.now()}.jpg`);
+    await uploadString(storageRef, dataUrl, "data_url");
+    return await getDownloadURL(storageRef);
+  }
+
+  window.handleProofPhotoSelect = function(orderId, photoKey, inputEl) {
+    const file = inputEl.files && inputEl.files[0];
+    if (!file) return;
+    if (!draftProofs[orderId]) draftProofs[orderId] = {};
+    readImageAsCompressedDataUrl(file, (dataUrl) => {
+      draftProofs[orderId][photoKey] = dataUrl;
+      const previewEl = document.getElementById(`preview_${orderId}_${photoKey}`);
+      if (previewEl) {
+        previewEl.src = dataUrl;
+        previewEl.style.display = "block";
+      }
+    });
+  };
+
+  window.submitCompletionWithPhotos = async function(orderId) {
+    const p = draftProofs[orderId] || {};
+    const billAmt = (document.getElementById(`billAmt_${orderId}`)?.value || "").trim();
+    const custSignName = (document.getElementById(`custSignName_${orderId}`)?.value || "").trim();
+
+    if (!p.faultyPartPhoto || !p.newPartPhoto || !p.workDonePhoto || !p.signedBillPhoto) {
+      alert("⚠️ Kripya chaaron photos upload karein:\n1. Kharab saman ka photo\n2. Jo saman lagaya hai uska photo\n3. Mistri/Labour kaam ki photo\n4. Apna Technical Services bill (customer signature ke saath) ka photo");
+      return;
+    }
+
+    alert("⏳ 4 Photos Firebase Storage mein upload ho rahi hain, kripya thoda rukhein...");
+
+    const [faultyUrl, newPartUrl, workDoneUrl, signedBillUrl] = await Promise.all([
+      uploadDataUrlToStorage(orderId, "faulty_part", p.faultyPartPhoto),
+      uploadDataUrlToStorage(orderId, "new_part", p.newPartPhoto),
+      uploadDataUrlToStorage(orderId, "work_done", p.workDonePhoto),
+      uploadDataUrlToStorage(orderId, "signed_bill", p.signedBillPhoto)
+    ]);
+
+    const proofData = {
+      faultyPartPhoto: faultyUrl,
+      newPartPhoto: newPartUrl,
+      workDonePhoto: workDoneUrl,
+      signedBillPhoto: signedBillUrl,
+      billAmount: billAmt || "As per bill",
+      customerSignedBy: custSignName || "Signed by Customer",
+      submittedBy: `${currentUser.name} (${currentUser.subRole})`,
+      submittedAt: new Date().toLocaleString()
+    };
+
+    const workerLabel = `${currentUser.name} (${currentUser.subRole})`;
+
+    try {
+      await updateDoc(doc(db, "bookings", orderId), {
+        status: "Completed",
+        assignedTo: workerLabel,
+        assignedWorkerPhone: currentUser.phone || "",
+        completionProof: proofData
+      });
+    } catch (err) {
+      const idx = bookings.findIndex(b => b.id === orderId);
+      if (idx !== -1) {
+        bookings[idx].status = "Completed";
+        bookings[idx].assignedTo = workerLabel;
+        bookings[idx].assignedWorkerPhone = currentUser.phone || "";
+        bookings[idx].completionProof = proofData;
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+      }
+    }
+
+    delete draftProofs[orderId];
+    alert("✅ Kaam Completed mark ho gaya aur 4 photos Firebase Storage mein save ho gayin!");
+    renderDashboard();
+  };
+
+  window.assignWorkerByOwner = async function(orderId) {
+    const wName = (document.getElementById(`assignName_${orderId}`)?.value || "").trim();
+    const wPhone = normalizePhone10(document.getElementById(`assignPhone_${orderId}`)?.value || "");
+    const wRole = document.getElementById(`assignRole_${orderId}`)?.value || "Technician";
+    if (!wName) {
+      alert("Kripya Technician ya Mistri/Labour ka naam likhein.");
+      return;
+    }
+    const label = `${wName} (${wRole})`;
+    try {
+      await updateDoc(doc(db, "bookings", orderId), {
+        assignedTo: label,
+        assignedWorkerPhone: wPhone,
+        status: "Accepted"
+      });
+    } catch (err) {
+      const idx = bookings.findIndex(b => b.id === orderId);
+      if (idx !== -1) {
+        bookings[idx].assignedTo = label;
+        bookings[idx].assignedWorkerPhone = wPhone;
+        bookings[idx].status = "Accepted";
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        renderDashboard();
+      }
+    }
+    alert(`✅ Order ${orderId} assign ho gaya: ${label}`);
+  };
+
+  window.verifyPaymentByOwner = async function(orderId, currentPaymentStatus) {
+    const updatedStatus = `${currentPaymentStatus} | ✅ Verified by Owner (${UPI_ID})`;
+    try {
+      await updateDoc(doc(db, "bookings", orderId), {
+        paymentVerified: true,
+        paymentStatus: updatedStatus
+      });
+    } catch (err) {
+      const idx = bookings.findIndex(b => b.id === orderId);
+      if (idx !== -1) {
+        bookings[idx].paymentVerified = true;
+        bookings[idx].paymentStatus = updatedStatus;
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        renderDashboard();
+      }
+    }
+    alert(`✅ Payment verified for ${orderId}`);
+  };
+
+  window.openBillModal = function(orderId) {
+    const b = bookings.find(item => item.id === orderId);
+    if (!b) return;
+    const p = b.completionProof || {};
+    document.getElementById('billContent').innerHTML = `
+      <div class="bill-row"><span><strong>Order ID:</strong></span><span>${b.id}</span></div>
+      <div class="bill-row"><span><strong>Branch:</strong></span><span>${b.branch || "Khagaria Main Branch"} (${b.distanceKm || "25 KM"})</span></div>
+      <div class="bill-row"><span><strong>Service:</strong></span><span>${b.service}</span></div>
+      <div class="bill-row"><span><strong>Visiting Charge:</strong></span><span>₹${b.visitingCharge || VISITING_CHARGE_INR}</span></div>
+      <div class="bill-row"><span><strong>Date:</strong></span><span>${b.date}</span></div>
+      <div class="bill-row"><span><strong>Customer:</strong></span><span>${b.customerName} (${b.phone})</span></div>
+      <div class="bill-row"><span><strong>Address:</strong></span><span>${b.address}</span></div>
+      <div class="bill-row"><span><strong>Assigned Worker:</strong></span><span>${b.assignedTo}</span></div>
+      <div class="bill-row"><span><strong>Work Status:</strong></span><span>${b.status}</span></div>
+      <div class="bill-row"><span><strong>Bill Amount:</strong></span><span><strong>${p.billAmount || `₹${VISITING_CHARGE_INR}+ (As per work)`}</strong></span></div>
+      <div class="bill-row"><span><strong>Customer Sign:</strong></span><span>${p.customerSignedBy || "Pending"}</span></div>
+      <div class="bill-row"><span><strong>Payment Status:</strong></span><span>${b.paymentStatus}</span></div>
+      <div style="margin-top:10px; font-size:11px; color:#64748b; text-align:center;">
+        Thank you for choosing <strong>Apna Technical Services</strong>!
+      </div>
+    `;
+    document.getElementById('billModal').classList.add('open');
+  };
+
+  window.closeBillModal = function(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('billModal').classList.remove('open');
+  };
+
+  function renderProofGallery(proof) {
+    if (!proof) return "";
+    return `
+      <div class="proof-box">
+        <h4>📸 Work Completion Proof (Apna Technical Services)</h4>
+        <div style="font-size:11.5px; margin-bottom:6px;">
+          🧾 Bill Amount: <strong>${proof.billAmount}</strong> | ✍️ Customer Sign: <strong>${proof.customerSignedBy}</strong><br/>
+          👷 By: ${proof.submittedBy} (${proof.submittedAt})
+        </div>
+        <div class="proof-grid">
+          <div class="proof-card">
+            <div><strong>1. Kharab Saman</strong></div>
+            <a href="${proof.faultyPartPhoto}" target="_blank"><img src="${proof.faultyPartPhoto}" alt="Kharab Saman" /></a>
+          </div>
+          <div class="proof-card">
+            <div><strong>2. Lagaya Gaya Saman</strong></div>
+            <a href="${proof.newPartPhoto}" target="_blank"><img src="${proof.newPartPhoto}" alt="Naya Saman" /></a>
+          </div>
+          <div class="proof-card">
+            <div><strong>3. Mistri/Labour Kaam</strong></div>
+            <a href="${proof.workDonePhoto}" target="_blank"><img src="${proof.workDonePhoto}" alt="Mistri Labour Kaam" /></a>
+          </div>
+          <div class="proof-card">
+            <div><strong>4. Signed Bill</strong></div>
+            <a href="${proof.signedBillPhoto}" target="_blank"><img src="${proof.signedBillPhoto}" alt="Apna Technical Services Signed Bill" /></a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  window.renderDashboard = function() {
+    if (!currentUser) return;
+    const list = document.getElementById('ordersList');
+    const statsDiv = document.getElementById('ownerStats');
+    const selectedBranchFilter = document.getElementById('dashBranchFilter').value;
+    list.innerHTML = "";
+
+    if (currentUser.role === "Owner") {
+      renderOwnerWorkerApprovals();
+      renderOwnerWorkersDirectory();
+
+      const locKeys = Object.keys(workerLocations);
+      let locHtml = `<div class="order-item" style="border-left-color:#0284c7; background:#f0f9ff;"><strong>🛰️ Live Technician & Mistri/Labour Locations:</strong><br/>`;
+      if (locKeys.length === 0) {
+        locHtml += `<span style="color:#64748b;">Abhi kisi Technician ya Mistri/Labour ne live location share nahi ki hai.</span>`;
+      } else {
+        locKeys.forEach(k => {
+          const w = workerLocations[k];
+          locHtml += `<div style="margin-top:6px;">👷 <strong>${w.name}</strong> (${w.role} | 🏢 ${w.branch || "All"} | 📞 ${w.phone})<br/>${w.workDetails ? `🛠️ ${w.workDetails}<br/>` : ""}📍 ${w.lat}, ${w.lng} (🕒 ${w.updatedAt}) — <a href="${w.mapsLink}" target="_blank"><strong>Open Live Map</strong></a></div>`;
+        });
+      }
+      locHtml += `</div>`;
+      list.innerHTML += locHtml;
+    } else {
+      const approvalCard = document.getElementById('ownerWorkerApprovalsCard');
+      const dirCard = document.getElementById('ownerWorkersDirectoryCard');
+      if (approvalCard) approvalCard.style.display = "none";
+      if (dirCard) dirCard.style.display = "none";
+    }
+
+    let filteredBookings = bookings;
+    if (selectedBranchFilter !== "All") {
+      filteredBookings = filteredBookings.filter(b => b.branch === selectedBranchFilter);
+    }
+
+    if (currentUser.role === "Customer") {
+      filteredBookings = filteredBookings.filter(b =>
+        (currentUser.phone && normalizePhone10(b.phone) === normalizePhone10(currentUser.phone)) ||
+        b.customerName.toLowerCase() === currentUser.name.toLowerCase()
+      );
+      document.getElementById('dashListTitle').innerText = "Meri Bookings";
+      statsDiv.style.display = "none";
+    } else if (currentUser.role === "Technician") {
+      filteredBookings = filteredBookings.filter(b => b.workerType === "Technician");
+      document.getElementById('dashListTitle').innerText = "Technician Jobs (20–25 KM Range)";
+      statsDiv.style.display = "none";
+    } else if (currentUser.role === "Labour") {
+      filteredBookings = filteredBookings.filter(b => b.workerType === "Labour");
+      document.getElementById('dashListTitle').innerText = currentUser.subRole + " Jobs (20–25 KM Range)";
+      statsDiv.style.display = "none";
+    } else if (currentUser.role === "Owner") {
+      document.getElementById('dashListTitle').innerText = "Owner Master Panel - 4 Branches (9693654168)";
+      statsDiv.style.display = "grid";
+      document.getElementById('statTotalOrders').innerText = filteredBookings.length;
+      document.getElementById('statPaidOrders').innerText = filteredBookings.filter(b => b.paymentVerified).length;
+      document.getElementById('statCompleted').innerText = filteredBookings.filter(b => b.status === "Completed").length;
+      document.getElementById('statReviews').innerText = feedbacks.length;
+    }
+
+    if (filteredBookings.length === 0) {
+      list.innerHTML += "<p style='color:#64748b; font-size:13px;'>Is branch mein abhi koi booking nahi hai.</p>";
+      return;
+    }
+
+    filteredBookings.forEach((b) => {
+      let ownerToolsHtml = "";
+      if (currentUser.role === "Owner") {
+        const verifyBtn = (!b.paymentVerified && b.paymentMode === "Online UPI")
+          ? `<button type="button" class="btn btn-success btn-sm" onclick="verifyPaymentByOwner('${b.id}', '${b.paymentStatus.replace(/'/g, "")}')">✅ Verify UPI Payment</button>`
+          : "";
+        ownerToolsHtml = `
+          <div class="owner-tools">
+            <strong>👑 Owner Assignment & Payment Control:</strong>
+            <div style="display:flex; gap:6px; margin-top:6px;">
+              <input type="text" id="assignName_${b.id}" placeholder="Worker ka naam" style="margin-bottom:4px; padding:6px; font-size:12px;" />
+              <input type="tel" id="assignPhone_${b.id}" placeholder="Worker mobile (live track ke liye)" style="margin-bottom:4px; padding:6px; font-size:12px;" />
+            </div>
+            <select id="assignRole_${b.id}" style="margin-bottom:4px; padding:6px; font-size:12px;">
+              <option value="Technician">Technician</option>
+              <option value="Raj Mistri">Raj Mistri</option>
+              <option value="Plumber">Plumber</option>
+              <option value="Tiles Mistri">Tiles Mistri</option>
+              <option value="Paint & Putti">Paint & Putti</option>
+              <option value="Labour">Labour</option>
+            </select>
+            <button type="button" class="btn btn-primary btn-sm" onclick="assignWorkerByOwner('${b.id}')">👷 Assign Worker</button>
+            ${verifyBtn}
+          </div>
+        `;
+      }
+
+      let workerCompletionSection = "";
+      if ((currentUser.role === "Technician" || currentUser.role === "Labour" || currentUser.role === "Owner") && b.status !== "Completed") {
+        workerCompletionSection = `
+          <div style="margin-top:8px;">
+            <button class="btn btn-warning btn-sm" onclick="acceptJob('${b.id}')">Accept Job</button>
+          </div>
+          <div class="proof-box">
+            <h4>✅ Kaam Pura Karne Par 4 Photo & Bill Upload Karein</h4>
+            <label>1. Kharab Saman ka Photo</label>
+            <input type="file" accept="image/*" capture="environment" onchange="handleProofPhotoSelect('${b.id}', 'faultyPartPhoto', this)" />
+            <img id="preview_${b.id}_faultyPartPhoto" style="display:none; width:90px; height:70px; object-fit:cover; border-radius:6px; margin-bottom:8px;" />
+
+            <label>2. Jo Saman Lagaya Hai Uska Photo</label>
+            <input type="file" accept="image/*" capture="environment" onchange="handleProofPhotoSelect('${b.id}', 'newPartPhoto', this)" />
+            <img id="preview_${b.id}_newPartPhoto" style="display:none; width:90px; height:70px; object-fit:cover; border-radius:6px; margin-bottom:8px;" />
+
+            <label>3. Mistri / Labour ne Jo Kaam Kiya Hai Uska Photo</label>
+            <input type="file" accept="image/*" capture="environment" onchange="handleProofPhotoSelect('${b.id}', 'workDonePhoto', this)" />
+            <img id="preview_${b.id}_workDonePhoto" style="display:none; width:90px; height:70px; object-fit:cover; border-radius:6px; margin-bottom:8px;" />
+
+            <label>4. Apna Technical Services Bill (Customer Signature ke Saath) ka Photo</label>
+            <input type="file" accept="image/*" capture="environment" onchange="handleProofPhotoSelect('${b.id}', 'signedBillPhoto', this)" />
+            <img id="preview_${b.id}_signedBillPhoto" style="display:none; width:90px; height:70px; object-fit:cover; border-radius:6px; margin-bottom:8px;" />
+
+            <label>Bill Amount (₹)</label>
+            <input type="text" id="billAmt_${b.id}" placeholder="Jaise: ₹850" />
+
+            <label>Customer Signature (Naam / Sign Confirmation)</label>
+            <input type="text" id="custSignName_${b.id}" placeholder="Customer ka naam jisne bill par sign kiya" />
+
+            <button type="button" class="btn btn-success btn-sm" onclick="submitCompletionWithPhotos('${b.id}')">📤 Upload 4 Photos to Storage & Mark Completed</button>
+          </div>
+        `;
+      }
+
+      const custLocHtml = b.customerLocation
+        ? `📍 Customer Location: <a href="${b.customerLocation.mapsLink}" target="_blank"><strong>Google Maps Par Dekhein</strong></a> (${b.customerLocation.lat}, ${b.customerLocation.lng})`
+        : `📍 Customer Location: GPS shared nahi`;
+
+      const proofStatusText = b.completionProof ? "4 Photos + Signed Bill Uploaded ✅" : "Pending";
+      const waReAlertMsg = encodeURIComponent(
+        `🔔 Booking ${b.id} | Branch: ${b.branch || "Khagaria Main"} (${b.distanceKm || "25 KM"}) | Visiting: ₹${b.visitingCharge || VISITING_CHARGE_INR} | Status: ${b.status} | Service: ${b.service} | Customer: ${b.customerName} (${b.phone}) | Address: ${b.address} | Proof: ${proofStatusText} | Location: ${b.customerLocation ? b.customerLocation.mapsLink : "N/A"}`
+      );
+      const waAlertBtn = `<a href="https://wa.me/${ALERT_WHATSAPP_NUMBER}?text=${waReAlertMsg}" target="_blank" class="btn btn-wa btn-sm">📲 WhatsApp Alert (9693654168)</a>`;
+      const billBtn = `<button type="button" class="btn btn-dark btn-sm" onclick="openBillModal('${b.id}')">🧾 Bill / Receipt</button>`;
+
+      list.innerHTML += `
+        <div class="order-item">
+          <div style="display:flex; justify-content:space-between;">
+            <strong>${b.service}</strong>
+            <span class="badge ${b.status === 'Completed' ? 'badge-paid' : 'badge-pending'}">${b.status}</span>
+          </div>
+          <div>🏢 <strong>${b.branch || "Khagaria Main Branch"}</strong> (${b.distanceKm || "20-25 KM Range"})</div>
+          <div>🆔 ${b.id} | 📅 ${b.date} | 💰 Visiting: <strong>₹${b.visitingCharge || VISITING_CHARGE_INR}</strong></div>
+          <div>👤 ${b.customerName} (📞 ${b.phone})</div>
+          <div>🏠 ${b.address}</div>
+          <div>${custLocHtml}</div>
+          <div>💳 Payment: <strong>${b.paymentStatus}</strong></div>
+          <div>👷 Worker: <strong>${b.assignedTo}</strong></div>
+          ${ownerToolsHtml}
+          ${renderProofGallery(b.completionProof)}
+          <div style="margin-top:6px;">${waAlertBtn} ${billBtn}</div>
+          ${workerCompletionSection}
+        </div>
+      `;
+    });
+  };
+
+  window.acceptJob = async function(orderId) {
+    const workerLabel = `${currentUser.name} (${currentUser.subRole})`;
+    try {
+      await updateDoc(doc(db, "bookings", orderId), {
+        status: "Accepted",
+        assignedTo: workerLabel,
+        assignedWorkerPhone: currentUser.phone || ""
+      });
+    } catch (err) {
+      const idx = bookings.findIndex(b => b.id === orderId);
+      if (idx !== -1) {
+        bookings[idx].status = "Accepted";
+        bookings[idx].assignedTo = workerLabel;
+        bookings[idx].assignedWorkerPhone = currentUser.phone || "";
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        renderDashboard();
+      }
+    }
+  };
+
+  window.submitFeedback = async function(e) {
+    e.preventDefault();
+    const id = "FB-" + Date.now();
+    const newFb = {
+      id,
+      createdAt: Date.now(),
+      name: document.getElementById('fbName').value,
+      branch: document.getElementById('fbBranch').value,
+      service: document.getElementById('fbService').value,
+      rating: document.getElementById('fbRating').value,
+      comment: document.getElementById('fbComment').value
+    };
+    try {
+      await setDoc(doc(db, "feedbacks", id), newFb);
+    } catch (err) {
+      feedbacks.unshift(newFb);
+      renderFeedbacks();
+    }
+    alert("⭐ Aapke feedback ke liye dhanyavaad!");
+    e.target.reset();
+    autofillUserDetails();
+  };
+
+  function renderFeedbacks() {
+    const list = document.getElementById('feedbackList');
+    list.innerHTML = "";
+    feedbacks.forEach(f => {
+      list.innerHTML += `
+        <div class="order-item" style="border-left-color:#f59e0b;">
+          <strong>${f.name}</strong> - <span style="font-size:12px;">${f.service} (${f.branch || "Khagaria Main"})</span>
+          <div>${f.rating}</div>
+          <p style="margin-top:4px; color:#334155;">"${f.comment}"</p>
+        </div>
+      `;
+    });
+  }
+
+  init();
+</script>
+
+</body>
+</html>
